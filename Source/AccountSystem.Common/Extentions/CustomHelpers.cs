@@ -4,7 +4,7 @@
     using System.Web;
     using System.Web.Mvc;
 
-    public static class Helpers
+    public static class CustomHelpers
     {
         public static string IsSelected(this HtmlHelper html, string controller = null, string action = null)
         {
