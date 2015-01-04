@@ -119,6 +119,21 @@
         }
 
         //
+        // GET: /Customer/Restore/id
+        public ActionResult Restore(int id)
+        {
+            var matchedCustomer = this.context.Customers
+                    .Find(id);
+
+            matchedCustomer.IsActive = true;
+
+            this.context.Entry(matchedCustomer).State = EntityState.Modified;
+            this.context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        //
         // GET: /Customer/Delete/id
         public ActionResult Delete(int id)
         {
@@ -131,6 +146,46 @@
             this.context.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        //
+        // GET: Customers/ShowDeletedCustomers
+        public ActionResult ShowDeleted()
+        {
+            var customers = this.context.Customers
+                .Where(c => c.IsActive == false)
+                .OrderByDescending(c => c.CreatedOn)
+                .Select(c => new CustomerViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Email = c.Email,
+                    Address = c.Address,
+                    City = c.City,
+                    PostCode = c.PostCode,
+                    PhoneNumber = c.PhoneNumber,
+                    OtherDetails = c.OtherDetails
+                }).ToList();
+
+            return View(customers);
+        }
+
+        //
+        // AJAX GET: /Customers/Customer/id
+        public JsonResult Customer(int id){
+            var customer = this.context.Customers
+                .Find(id);
+
+            var customerInfo = new { 
+                Name = customer.Name,
+                Email = customer.Email,
+                Address = customer.Address,
+                City = customer.City,
+                PostCode = customer.PostCode,
+                Phone = customer.PhoneNumber
+            };
+
+            return Json(customerInfo, JsonRequestBehavior.AllowGet);
         }
 	}
 }

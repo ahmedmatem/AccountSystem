@@ -65,3 +65,7 @@ input[type="checkbox"].input-validation-error {
 .row-list a {
     margin-right: 5px;
 }
+
+.clickable-div {
+    cursor:pointer;
+}

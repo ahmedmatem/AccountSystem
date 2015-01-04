@@ -235,6 +235,7 @@
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
     <Content Include="Views\Customers\Update.cshtml" />
+    <Content Include="Views\Customers\ShowDeleted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

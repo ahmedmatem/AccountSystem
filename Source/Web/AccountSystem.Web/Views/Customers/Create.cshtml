@@ -4,6 +4,10 @@
     ViewBag.Title = "Create";
 }
 
+<div>
+    <a href="@Url.Content("~/Customers/Index")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+</div>
+
 <div><h3>Create new customer</h3></div>
 
 @using (Html.BeginForm("Create", "Customers", FormMethod.Post, new { @class = "form-horizontal form-customer" }))
@@ -56,7 +60,8 @@
     <br />
     <div class="control-group">
         <div class="controls">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Create</button> 
+            <a href="@Url.Content("~/Customers/Index")" class="btn btn-danger">Cancel</a>
         </div>
     </div>
 }
