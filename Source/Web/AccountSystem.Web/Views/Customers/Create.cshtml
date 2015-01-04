@@ -1,0 +1,62 @@
+﻿@model AccountSystem.Web.Models.CustomerViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div><h3>Create new customer</h3></div>
+
+@using (Html.BeginForm("Create", "Customers", FormMethod.Post, new { @class = "form-horizontal form-customer" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label"})
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.Email, new { @class = "control-label"})
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Email)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label"})
+        <div class="controls">
+            @Html.TextBoxFor(m => m.PhoneNumber)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.Address, new { @class = "control-label"})
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Address)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.City, new { @class = "control-label"})
+        <div class="controls">
+            @Html.TextBoxFor(m => m.City)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.PostCode, new { @class = "control-label"})
+        <div class="controls">
+            @Html.TextBoxFor(m => m.PostCode)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.OtherDetails, new { @class = "control-label"})
+        <div class="controls">
+            @Html.TextAreaFor(m => m.OtherDetails)
+        </div>
+    </div>
+    <br />
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+}

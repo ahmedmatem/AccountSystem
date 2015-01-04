@@ -1,0 +1,51 @@
+﻿@model AccountSystem.Web.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/login.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+
+    <div class="container">
+
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <h2 class="form-signin-heading">Please sign in</h2>
+
+            @Html.ValidationSummary(true)
+            
+            @Html.ValidationMessageFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "input-block-level", placeholder = "User name" })
+            
+            @Html.ValidationMessageFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "input-block-level", placeholder = "Password" })
+
+            <label class="checkbox" for="RememberMe">
+                @Html.CheckBoxFor(m => m.RememberMe) Remember me
+            </label>
+
+            <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+        }
+
+    </div> <!-- /container -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+</html>

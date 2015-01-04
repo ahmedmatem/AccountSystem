@@ -1,0 +1,96 @@
+﻿@model IEnumerable<AccountSystem.Web.Models.CustomerViewModel>
+
+@{
+    ViewBag.Title = "Customers";
+}
+<div>
+    <a href="@Url.Content("~/Customers/Create")" id="newCustomer" class="btn btn-primary"><i class="fa fa-plus"></i> New Customer</a>
+</div>
+
+<div>
+    <h3>List of all customers</h3>
+    @foreach (var customer in Model)
+    {
+        <div class="row row-list">
+            <div class="col-md-3 col-sm-6 col-xs-6">@customer.Name</div>
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <a href="@Url.Content("~/Customers/Update/" + customer.Id)" title="Edit"><i class="fa fa-edit"></i></a>
+                <a href="@Url.Content("~/Customers/Delete/" + customer.Id)" title="Delete"><i class="fa fa-remove"></i></a>
+            </div>
+        </div>
+    }
+</div>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OtherDetails)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OtherDetails)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>*@
+
+@*@section scripts{
+    <script>
+        $("#customers").addClass("active");
+    </script>
+}*@

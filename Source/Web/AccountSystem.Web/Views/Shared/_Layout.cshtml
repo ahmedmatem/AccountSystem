@@ -1,0 +1,44 @@
+﻿@using AccountSystem.Common.Extentions
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="@Html.IsSelected(controller : "Customers")" @*class="active"*@>
+                <a href="@Url.Content("~/Customers")">Customers</a>
+            </li>
+            <li class="@Html.IsSelected(controller : "Shops")">
+                <a href="#">Shops</a>
+            </li>
+
+            <li class="pull-right"><a id="logoff" href="#">Logout</a></li>
+        </ul>
+        <div id="body">
+            @RenderBody()
+        </div>
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @class = "logoff_form" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $("#logoff").click(function () {
+            $(".logoff_form").submit();
+        });
+    </script>
+</body>
+</html>
