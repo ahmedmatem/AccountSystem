@@ -2,16 +2,16 @@
 {
     using System;
     using System.Web.Mvc;
+    using System.Data.Entity;
     using System.Linq;
 
     using AccountSystem.Web.Models;
     using AccountSystem.Models;
-    using System.Data.Entity;
 
     public class CustomersController : BaseController
     {
         //
-        // GET: /Customer/
+        // GET: /Customers/
         public ActionResult Index()
         {
             var customers = this.context.Customers
@@ -33,14 +33,14 @@
         }
 
         //
-        // GET: /Customer/Create
+        // GET: /Customers/Create
         public ActionResult Create()
         {
             return View();
         }
 
         //
-        // POST: /Customer/Create
+        // POST: /Customers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CustomerViewModel model)
@@ -70,14 +70,14 @@
         }
 
         //
-        // GET: /Customer/Update/id
+        // GET: /Customers/Update/id
         public ActionResult Update(int id)
         {
             var matchedCustomer = this.context.Customers
                 .Where(c => c.Id == id)
                 .Select(c => new CustomerViewModel()
                 {
-                    Id = c.Id,
+                    Id = id,
                     Name = c.Name,
                     Email = c.Email,
                     Address = c.Address,
@@ -91,7 +91,7 @@
         }
 
         //
-        // POST: /Customer/Update
+        // POST: /Customers/Update
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Update(CustomerViewModel customer)
@@ -119,7 +119,7 @@
         }
 
         //
-        // GET: /Customer/Restore/id
+        // GET: /Customers/Restore/id
         public ActionResult Restore(int id)
         {
             var matchedCustomer = this.context.Customers
@@ -134,7 +134,7 @@
         }
 
         //
-        // GET: /Customer/Delete/id
+        // GET: /Customers/Delete/id
         public ActionResult Delete(int id)
         {
             var matchedCustomer = this.context.Customers
@@ -149,7 +149,7 @@
         }
 
         //
-        // GET: Customers/ShowDeletedCustomers
+        // GET: /Customers/ShowDeleted
         public ActionResult ShowDeleted()
         {
             var customers = this.context.Customers

@@ -12,6 +12,6 @@
 
         public string Name { get; set; }
 
-        public string OtherDetails { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -1,7 +1,8 @@
-﻿@model AccountSystem.Web.Models.CustomerViewModel
+﻿@using System.Web.Configuration
+@model AccountSystem.Web.Models.CustomerViewModel
 
 @{
-    ViewBag.Title = "Update";
+    ViewBag.Title = "Update a customer - " + WebConfigurationManager.AppSettings["ApplicationName"];
 }
 
 <div>

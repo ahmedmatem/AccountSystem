@@ -1,0 +1,74 @@
+﻿@using System.Web.Configuration
+@model IEnumerable<AccountSystem.Web.Models.ShopViewModel>
+
+@{
+    ViewBag.Title = "Shops - " + WebConfigurationManager.AppSettings["ApplicationName"];
+}
+
+<div>
+    <a href="@Url.Content("~/Shops/Create")" id="newShop" class="btn btn-primary"><i class="fa fa-plus"></i> New Shop</a>
+    <a href="@Url.Content("~/Shops/ShowDeleted")" class="btn btn-primary"><i class="fa fa-list"></i> Show list of deleted Shops</a>
+</div>
+
+<div>
+    <h3>List of all shops</h3>
+    @foreach (var shop in Model)
+    {
+        <div class="row row-list">
+            <div class="col-md-3 col-sm-6 col-xs-6">@shop.Name</div>
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <a href="@Url.Content("~/Shops/Update/" + shop.Id)" title="Edit"><i class="fa fa-edit"></i></a>
+                <a href="@Url.Content("~/Shops/Delete/" + shop.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="confirm-dialog" title="Confirmation Required">
+    <p>Are you sure about this?</p>
+</div>
+
+@section scripts{
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#confirm-dialog").dialog({
+                autoOpen: false,
+                modal: true
+            });
+        });
+
+        $(".deleteBtn").click(function (e) {
+            e.preventDefault();
+            var targetUrl = $(this).attr("href");
+
+            $("#confirm-dialog").dialog({
+                buttons: {
+                    "Delete": function () {
+                        window.location.href = targetUrl;
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function (e) {
+                        e.preventDefault();
+                        $(this).dialog("close");
+                    }
+                },
+                show: {
+                    effect: "fade",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "fade",
+                    duration: 1000
+                }
+            });
+
+            $("#confirm-dialog").dialog("open");
+        });
+    </script>
+}
+
+
+
+

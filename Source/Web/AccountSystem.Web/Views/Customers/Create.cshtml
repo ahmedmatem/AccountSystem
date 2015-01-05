@@ -1,7 +1,8 @@
-﻿@model AccountSystem.Web.Models.CustomerViewModel
+﻿@using System.Web.Configuration
+@model AccountSystem.Web.Models.CustomerViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create a customer - " + WebConfigurationManager.AppSettings["ApplicationName"];
 }
 
 <div>

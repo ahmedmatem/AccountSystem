@@ -1,0 +1,23 @@
+﻿@using System.Web.Configuration
+@model IEnumerable<AccountSystem.Web.Models.ShopViewModel>
+
+@{
+    ViewBag.Title = "Show deleted shops - " + WebConfigurationManager.AppSettings["ApplicationName"];
+}
+
+<div>
+    <a href="@Url.Content("~/Shops/Index")" class="btn btn-primary"><i class="fa fa-list"></i> Show list of all active shops</a>
+</div>
+
+<div>
+    <h3>List of all deleted shops</h3>
+    @foreach (var shop in Model)
+    {
+        <div class="row row-list">
+            <div class="col-md-3 col-sm-6 col-xs-6">@shop.Name</div>
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <a href="@Url.Content("~/Shops/Restore/" + shop.Id)" title="Restore"><i class="fa fa-refresh"></i></a>
+            </div>
+        </div>
+    }
+</div>

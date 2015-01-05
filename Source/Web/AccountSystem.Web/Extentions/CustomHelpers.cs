@@ -1,4 +1,4 @@
-﻿namespace AccountSystem.Web
+﻿namespace AccountSystem.Web.Extentions
 {
     using System;
     using System.Web;
