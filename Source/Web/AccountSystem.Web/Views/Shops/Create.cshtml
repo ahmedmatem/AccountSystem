@@ -1,15 +1,14 @@
-﻿@using System.Web.Configuration
-@model AccountSystem.Web.Models.ShopViewModel
+﻿@model AccountSystem.Web.Models.ShopViewModel
 
 @{
-    ViewBag.Title = "Create a shop - " + WebConfigurationManager.AppSettings["ApplicationName"];
+    ViewBag.Title = "Create a shop";
 }
 
 <div>
     <a href="@Url.Content("~/Shops/Index")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
 </div>
 
-<div><h3>Create new customer</h3></div>
+<div><h3>Create new shop</h3></div>
 
 @using (Html.BeginForm("Create", "Shops", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
 {
