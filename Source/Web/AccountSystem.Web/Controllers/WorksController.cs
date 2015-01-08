@@ -3,9 +3,11 @@
     using System;
     using System.Linq;
     using System.Web.Mvc;
+    using System.Data.Entity;
 
     using AccountSystem.Web.Models;
     using AccountSystem.Models;
+    using AccountSystem.Common;
 
     public class WorksController : BaseController
     {
@@ -75,125 +77,124 @@
             return View(model);
         }
 
-        ////
-        //// GET: /Customers/Update/id
-        //public ActionResult Update(int id)
-        //{
-        //    var matchedCustomer = this.context.Customers
-        //        .Where(c => c.Id == id)
-        //        .Select(c => new CustomerViewModel()
-        //        {
-        //            Id = id,
-        //            Name = c.Name,
-        //            Email = c.Email,
-        //            Address = c.Address,
-        //            City = c.City,
-        //            PostCode = c.PostCode,
-        //            PhoneNumber = c.PhoneNumber,
-        //            OtherDetails = c.OtherDetails
-        //        }).FirstOrDefault();
+        //
+        // GET: /Works/Update/id
+        public ActionResult Update(int id)
+        {
+            var matchedWork = this.context.Works
+                .Where(w => w.Id == id)
+                .Select(w => new WorkViewModel()
+                {
+                    Id = id,
+                    Customer = w.Customer,
+                    StartTime = w.StartTime,
+                    Price = w.Price,
+                    OtherDetails = w.OtherDetails
+                }).FirstOrDefault();
 
-        //    return View(matchedCustomer);
-        //}
+            ViewBag.Customers = this.context.Customers
+               .Select(c => new SelectListItem()
+               {
+                   Text = c.Name,
+                   Value = "" + c.Id,
+               }).ToList();
 
-        ////
-        //// POST: /Customers/Update
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Update(CustomerViewModel customer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var matchedCustomer = this.context.Customers
-        //            .Find(customer.Id);
+            return View(matchedWork);
+        }
 
-        //        matchedCustomer.Name = customer.Name;
-        //        matchedCustomer.Email = customer.Email;
-        //        matchedCustomer.Address = customer.Address;
-        //        matchedCustomer.City = customer.City;
-        //        matchedCustomer.PostCode = customer.PostCode;
-        //        matchedCustomer.PhoneNumber = customer.PhoneNumber;
-        //        matchedCustomer.OtherDetails = customer.OtherDetails;
+        //
+        // POST: /Works/Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(WorkViewModel work)
+        {
+            if (ModelState.IsValid)
+            {
+                var matchedWork = this.context.Works
+                    .Find(work.Id);
 
-        //        this.context.Entry(matchedCustomer).State = EntityState.Modified;
-        //        this.context.SaveChanges();
+                matchedWork.CustomerId = work.Customer.Id;
+                matchedWork.Price = work.Price;
+                matchedWork.StartTime = work.StartTime;
+                matchedWork.OtherDetails = work.OtherDetails;
 
-        //        return RedirectToAction("Index");
-        //    }
+                this.context.Entry(matchedWork).State = EntityState.Modified;
+                this.context.SaveChanges();
 
-        //    return View(customer);
-        //}
+                return RedirectToAction("Index");
+            }
 
-        ////
-        //// GET: /Customers/Restore/id
-        //public ActionResult Restore(int id)
-        //{
-        //    var matchedCustomer = this.context.Customers
-        //            .Find(id);
+            return View(work);
+        }
 
-        //    matchedCustomer.IsActive = true;
+        //
+        // GET: /Works/Restore/id
+        public ActionResult Restore(int id)
+        {
+            var matchedWork = this.context.Works
+                    .Find(id);
 
-        //    this.context.Entry(matchedCustomer).State = EntityState.Modified;
-        //    this.context.SaveChanges();
+            matchedWork.IsActive = true;
 
-        //    return RedirectToAction("Index");
-        //}
+            this.context.Entry(matchedWork).State = EntityState.Modified;
+            this.context.SaveChanges();
 
-        ////
-        //// GET: /Customers/Delete/id
-        //public ActionResult Delete(int id)
-        //{
-        //    var matchedCustomer = this.context.Customers
-        //            .Find(id);
+            return RedirectToAction("Index");
+        }
 
-        //    matchedCustomer.IsActive = false;
+        //
+        // GET: /Works/Delete/id
+        public ActionResult Delete(int id)
+        {
+            var matchedWork = this.context.Works
+                    .Find(id);
 
-        //    this.context.Entry(matchedCustomer).State = EntityState.Modified;
-        //    this.context.SaveChanges();
+            matchedWork.IsActive = false;
 
-        //    return RedirectToAction("Index");
-        //}
+            this.context.Entry(matchedWork).State = EntityState.Modified;
+            this.context.SaveChanges();
 
-        ////
-        //// GET: /Customers/ShowDeleted
-        //public ActionResult ShowDeleted()
-        //{
-        //    var customers = this.context.Customers
-        //        .Where(c => c.IsActive == false)
-        //        .OrderByDescending(c => c.CreatedOn)
-        //        .Select(c => new CustomerViewModel()
-        //        {
-        //            Id = c.Id,
-        //            Name = c.Name,
-        //            Email = c.Email,
-        //            Address = c.Address,
-        //            City = c.City,
-        //            PostCode = c.PostCode,
-        //            PhoneNumber = c.PhoneNumber,
-        //            OtherDetails = c.OtherDetails
-        //        }).ToList();
+            return RedirectToAction("Index");
+        }
 
-        //    return View(customers);
-        //}
+        //
+        // GET: /Works/ShowDeleted
+        public ActionResult ShowDeleted()
+        {
+            var works = this.context.Works
+                .Where(w => w.IsActive == false)
+                .OrderByDescending(w => w.StartTime)
+                .Select(w => new WorkViewModel()
+                {
+                    Id = w.Id,
+                    StartTime = w.StartTime,
+                    Price = w.Price,
+                    OtherDetails = w.OtherDetails,
+                    Customer = w.Customer
+                }).ToList();
 
-        ////
-        //// AJAX GET: /Customers/Customer/id
-        //public JsonResult Customer(int id)
-        //{
-        //    var customer = this.context.Customers
-        //        .Find(id);
+            return View(works);
+        }
 
-        //    var customerInfo = new
-        //    {
-        //        Name = customer.Name,
-        //        Email = customer.Email,
-        //        Address = customer.Address,
-        //        City = customer.City,
-        //        PostCode = customer.PostCode,
-        //        Phone = customer.PhoneNumber
-        //    };
+        //
+        // AJAX GET: /Works/Work/id
+        public JsonResult Work(int id)
+        {
+            var work = this.context.Works
+                .Find(id);
 
-        //    return Json(customerInfo, JsonRequestBehavior.AllowGet);
-        //}
+            var customer = this.context.Customers
+                .Find(work.CustomerId);
+
+            var workInfo = new
+            {
+                Name = customer.Name,
+                Price = work.Price,
+                StartTime = work.StartTime.Month + "/" + work.StartTime.Day + "/" + work.StartTime.Year,
+                Details = work.OtherDetails
+            };
+
+            return Json(workInfo, JsonRequestBehavior.AllowGet);
+        }
 	}
 }

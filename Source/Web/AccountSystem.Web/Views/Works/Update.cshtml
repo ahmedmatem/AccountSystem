@@ -1,18 +1,20 @@
 ﻿@model AccountSystem.Web.Models.WorkViewModel
 
 @{
-    ViewBag.Title = "Create a work";
+    ViewBag.Title = "Update a work";
 }
 
 <div>
     <a href="@Url.Content("~/Works/Index")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
 </div>
 
-<div><h3>Create new work</h3></div>
+<div><h3>Update customer</h3></div>
 
-@using (Html.BeginForm("Create", "Works", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
+@using (Html.BeginForm("Update", "Works", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
 {
     @Html.AntiForgeryToken()
+    
+    @Html.HiddenFor(m => m.Id)
 
     <div class="control-group">
         @Html.LabelFor(m => m.Customer.Name, new { @class = "control-label" })
@@ -45,7 +47,7 @@
     <br />
     <div class="control-group">
         <div class="controls">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <a href="@Url.Content("~/Works/Index")" class="btn btn-danger">Cancel</a>
         </div>
     </div>
@@ -62,6 +64,8 @@
                 buttonImageOnly: true,
                 buttonText: "Select date"
             });
+
+            $('#datepicker').datepicker("setDate", new Date($("#datepicker").val()));
         });
     </script>
 }

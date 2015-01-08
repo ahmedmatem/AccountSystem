@@ -29,6 +29,10 @@
     <p>Are you sure about this?</p>
 </div>
 
+<div id="info-dialog" title="Work information">
+    <p id="content"></p>
+</div>
+
 @section scripts{
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <script>
@@ -37,6 +41,16 @@
             $("#confirm-dialog").dialog({
                 autoOpen: false,
                 modal: true
+            });
+
+            $("#info-dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    Ok: function () {
+                        $(this).dialog("close");
+                    }
+                }
             });
         });
 
@@ -66,6 +80,18 @@
             });
 
             $("#confirm-dialog").dialog("open");
+        });
+
+        $(".clickable-div").click(function () {
+            var id = $(this).attr("id");
+            $.get("/Works/Work/" + id, function (data) {
+                $("#info-dialog #content").html("");
+                $.each(data, function (i, item) {
+                    $("#info-dialog #content").append("<p><strong>" + i + ":</strong> " + (item == null ? "--" : item) + "</p>");
+                });
+
+                $("#info-dialog").dialog("open");
+            })
         });
     </script>
 }

@@ -249,6 +249,8 @@
     <Content Include="Views\Shops\ShowDeleted.cshtml" />
     <Content Include="Views\Works\Index.cshtml" />
     <Content Include="Views\Works\Create.cshtml" />
+    <Content Include="Views\Works\Update.cshtml" />
+    <Content Include="Views\Works\ShowDeleted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -258,6 +260,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AccountSystem.Common\AccountSystem.Common.csproj">
+      <Project>{cc58ca33-f00d-465c-b070-f6703577f1d3}</Project>
+      <Name>AccountSystem.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\AccountSystem.Data\AccountSystem.Data.csproj">
       <Project>{e2bc2c40-7603-4841-8cfe-6675f800a8b0}</Project>
       <Name>AccountSystem.Data</Name>
@@ -285,7 +291,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2827</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2828/</IISUrl>
+          <IISUrl>http://localhost:2829/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

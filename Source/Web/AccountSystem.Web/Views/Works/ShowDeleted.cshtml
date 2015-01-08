@@ -1,0 +1,25 @@
+﻿@model IEnumerable<AccountSystem.Web.Models.WorkViewModel>
+
+@{
+    ViewBag.Title = "Show deleted works";
+}
+
+<div>
+    <a href="@Url.Content("~/Works/Index")" class="btn btn-primary"><i class="fa fa-list"></i> Show list of all active works</a>
+</div>
+
+<div>
+    <h3>List of all deleted works</h3>
+    @foreach (var work in Model)
+    {
+        <div class="row row-list">
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <span id="@work.Id" class="clickable-div">@work.Customer.Name</span>
+            </div>
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <a href="@Url.Content("~/Works/Restore/" + work.Id)" title="Restore"><i class="fa fa-refresh"></i></a>
+            </div>
+        </div>
+    }
+</div>
+

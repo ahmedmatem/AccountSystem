@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{4193356E-1F6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountSystem.Web", "Web\AccountSystem.Web\AccountSystem.Web.csproj", "{D037037A-23E7-4301-A9CD-6C831E04920F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountSystem.Common", "AccountSystem.Common\AccountSystem.Common.csproj", "{CC58CA33-F00D-465C-B070-F6703577F1D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D037037A-23E7-4301-A9CD-6C831E04920F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D037037A-23E7-4301-A9CD-6C831E04920F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D037037A-23E7-4301-A9CD-6C831E04920F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC58CA33-F00D-465C-B070-F6703577F1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC58CA33-F00D-465C-B070-F6703577F1D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC58CA33-F00D-465C-B070-F6703577F1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC58CA33-F00D-465C-B070-F6703577F1D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
