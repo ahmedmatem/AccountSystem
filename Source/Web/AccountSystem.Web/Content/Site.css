@@ -69,3 +69,46 @@ input[type="checkbox"].input-validation-error {
 .clickable-div {
     cursor:pointer;
 }
+
+.ui-datepicker-trigger {
+    position: relative;
+    left: -25px;
+    top: -3px;
+}
+
+#customer-suggest-list {
+    position: absolute;
+    border: 1px solid #333;
+    background-color: white;
+    border-radius: 4px;
+    padding: 4px;
+    display: none;
+}
+
+/* Combobox style */
+.custom-combobox {
+    position: relative;
+    display: inline-block;
+  }
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+  }
+  .custom-combobox-input {
+    margin: 0;
+    padding: 5px 10px;
+  }
+.custom-combobox input {
+    height: 32px;
+    border-radius: 2px;
+}
+.custom-combobox a {
+    height: 32px;
+    top: -1px;
+    left: -32px;
+}
+
+  /* ----- */

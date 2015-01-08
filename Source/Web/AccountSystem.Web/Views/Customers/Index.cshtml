@@ -5,7 +5,7 @@
 }
 
 <div>
-    <a href="@Url.Content("~/Customers/Create")" id="newCustomer" class="btn btn-primary"><i class="fa fa-plus"></i> New Customer</a>
+    <a href="@Url.Content("~/Customers/Create")" class="btn btn-primary"><i class="fa fa-plus"></i> New Customer</a>
     <a href="@Url.Content("~/Customers/ShowDeleted")" class="btn btn-primary"><i class="fa fa-list"></i> Show list of deleted customers</a>
 </div>
 
@@ -84,7 +84,7 @@
 
         $(".clickable-div").click(function (){
             var id = $(this).attr("id");
-            $.get("Customers/Customer/" + id, function (data){
+            $.get("/Customers/Customer/" + id, function (data){
                 $("#info-dialog #content").html("");
                 $.each(data, function(i, item) {
                     $("#info-dialog #content").append("<p><strong>" + i + ":</strong> " + (item == null ? "--" : item) + "</p>");

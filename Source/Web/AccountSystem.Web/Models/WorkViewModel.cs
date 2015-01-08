@@ -1,27 +1,23 @@
-﻿namespace AccountSystem.Models
+﻿namespace AccountSystem.Web.Models
 {
     using System;
-    using System.Collections.Generic;
+    using System.Web.Mvc;
+
+    using AccountSystem.Models;
     using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
 
-    public class Work
+    public class WorkViewModel
     {
-        public Work() { }
-
-        [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Start time")]
         public DateTime StartTime { get; set; }
-
-        //public ICollection<WorkType> Types { get; set; }
 
         public decimal Price { get; set; }
 
+        [Display(Name = "Other details")]
         public string OtherDetails { get; set; }
-
-        public bool IsActive { get; set; }
-
-        public int CustomerId { get; set; }
 
         public Customer Customer { get; set; }
     }

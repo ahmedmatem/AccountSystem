@@ -1,0 +1,67 @@
+﻿@model AccountSystem.Web.Models.WorkViewModel
+
+@{
+    ViewBag.Title = "Create a work";
+}
+
+<div>
+    <a href="@Url.Content("~/Works/Index")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+</div>
+
+<div><h3>Create new work</h3></div>
+
+@using (Html.BeginForm("Create", "Works", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="control-group">
+        @Html.LabelFor(m => m.Customer.Name, new { @class = "control-label" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.Customer.Id, new List<SelectListItem>(ViewBag.Customers), "", new { id = "combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Customer.Name)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.StartTime, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.StartTime, new { id = "datepicker", disabled = "disabled" } )
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.Price, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Price)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.OtherDetails, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextAreaFor(m => m.OtherDetails)
+        </div>
+    </div>
+    
+    <br />
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="@Url.Content("~/Works/Index")" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="~/Scripts/combobox.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                showOn: "button",
+                buttonImage: "/content/images/calendar.png",
+                buttonImageOnly: true,
+                buttonText: "Select date"
+            });
+        });
+    </script>
+}
