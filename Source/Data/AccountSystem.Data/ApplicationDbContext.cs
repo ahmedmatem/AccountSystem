@@ -20,5 +20,7 @@
         public IDbSet<Shop> Shops { get; set; }
 
         public IDbSet<Work> Works { get; set; }
+
+        public IDbSet<Expense> Expenses { get; set; }
     }
 }

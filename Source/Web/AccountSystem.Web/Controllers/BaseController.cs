@@ -4,7 +4,7 @@
 
     using AccountSystem.Data;
 
-    [Authorize(Roles="Admin")]
+    [Authorize(Roles="Admin, AccountHolder")]
     public class BaseController : Controller
     {
         protected ApplicationDbContext context;

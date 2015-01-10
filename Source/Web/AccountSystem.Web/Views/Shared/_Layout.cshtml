@@ -25,7 +25,21 @@
                 <a href="@Url.Content("~/Works")">Works</a>
             </li>
 
-            <li class="pull-right"><a id="logoff" href="#">Logout</a></li>
+            <li class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        @User.Identity.Name <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a id="logoff" href="#">Logout</a></li>
+                        @*<li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>*@
+                    </ul>
+                </div>
+            </li>
+            @*<li class="pull-right"><a id="logoff" href="#">Logout</a></li>*@
         </ul>
         <div id="body">
             @RenderBody()

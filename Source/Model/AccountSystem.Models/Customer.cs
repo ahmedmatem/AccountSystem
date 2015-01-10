@@ -8,11 +8,13 @@
     {
         protected ICollection<Order> orders;
         protected ICollection<Work> works;
+        protected ICollection<Expense> expenses;
 
         public Customer()
         {
             this.orders = new HashSet<Order>();
             this.works = new HashSet<Work>();
+            this.expenses = new HashSet<Expense>();
         }
 
         [Key]
@@ -60,6 +62,19 @@
             private set
             {
                 this.works = value;
+            }
+        }
+
+        public virtual ICollection<Expense> Expenses
+        {
+            get
+            {
+                return this.expenses;
+            }
+
+            private set
+            {
+                this.expenses = value;
             }
         }
     }
