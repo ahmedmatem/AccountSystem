@@ -57,7 +57,7 @@
     <div class="control-group">
         @Html.LabelFor(m => m.CreatedOn, new { @class = "control-label" })
         <div class="controls">
-            @Html.TextBoxFor(m => m.CreatedOn, new { id = "datepicker" } )
+            @Html.TextBoxFor(m => m.CreatedOn, " ", new { id = "datepicker" } )
         </div>
     </div>
     
@@ -91,11 +91,17 @@
     </div>
 }
 
+<div id="info-dialog" title="Customer information">
+    <p id="content"></p>
+</div>
+
 @section scripts{
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <script src="~/Scripts/combobox.js"></script>
     <script>
         $(function () {
+            $("#work-list").hide();
+
             $("#datepicker").datepicker({
                 showOn: "button",
                 buttonImage: "/content/images/calendar.png",
@@ -106,14 +112,28 @@
             $("#payer-combobox").combobox();
             $("#customer-combobox").combobox({
                 select: function (event, ui) {
-                    alert(this.value);
+                    $("#work-combobox").html("");
+                    var customerId = $("#customer-combobox").val();
+                    $.get("GetCustomerWorks/" + customerId, function (data) {
+                        var options = "";
+                        $.each(data[0], function (index, element) {
+                            $.each(element, function (i, item) {
+                                if (i == "Id") {
+                                    options += "<option value=" + item + ">";
+                                }
+                                if (i == "Name") {
+                                    options += item + "</option>";
+                                }
+                            });
+                        });
+                        $("#work-combobox").append(options);
+                    });
+
+                    $("#work-list").show();
                 }
             });
-            $("#work-combobox").combobox();
 
-            //$(".toggle").click(function () {
-            //    $("#customer-combobox").toggle();
-            //});
+            $("#work-combobox").combobox();
         });
     </script>
 }

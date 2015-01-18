@@ -9,6 +9,7 @@
     using AccountSystem.Web.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System.Web.Security;
+    using AccountSystem.Models;
 
     public class ExpensesController : BaseController
     {
@@ -63,5 +64,19 @@
 
             return View(model);
         }
+
+        //
+        // AJAX: Expenses/GetCustomerWorks
+
+        public JsonResult GetCustomerWorks(int id)
+        {
+            var customerWorks = this.context.Customers
+                .Where(c => c.Id == id)
+                .Select(c => c.Works);
+
+            return Json(customerWorks, JsonRequestBehavior.AllowGet);
+        }
+
+        // TODO: Write Create Action using post
 	}
 }

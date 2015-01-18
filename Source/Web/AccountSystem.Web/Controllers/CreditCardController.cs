@@ -18,9 +18,10 @@
         public ActionResult Index(string id)
         {
             ViewBag.AccountHolder = this.context.Users.Find(id);
+            var accountHolderId = User.Identity.GetUserId();
 
             ViewBag.CreditCards = this.context.CreditCards
-                .Where(x => x.IsActive == true)
+                .Where(x => x.IsActive == true && x.AccountHolderId == accountHolderId)
                 .Select(x => x).ToList();
 
             return View();
@@ -41,20 +42,25 @@
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreditCardViewModel model)
         {
-            var accountHolder = this.context.Users.Find(User.Identity.GetUserId());
-
-            var creditCard = new CreditCard()
+            if(ModelState.IsValid)
             {
-                Name = model.CreditCardName,
-                CardNumber = model.CardNumber,
-                ValidThru = model.ValidThru,
-                IsActive = true,
-            };
+                var accountHolder = this.context.Users.Find(User.Identity.GetUserId());
 
-            accountHolder.CrediCards.Add(creditCard);
+                var creditCard = new CreditCard()
+                {
+                    Name = model.CreditCardName,
+                    CardNumber = model.CardNumber,
+                    ValidThru = model.ValidThru,
+                    IsActive = true,
+                };
 
-            this.context.Entry(accountHolder).State = EntityState.Modified;
-            this.context.SaveChanges();
+                accountHolder.CrediCards.Add(creditCard);
+
+                this.context.Entry(accountHolder).State = EntityState.Modified;
+                this.context.SaveChanges();
+
+                return RedirectToAction("Index", new { id = User.Identity.GetUserId()});
+            }            
 
             return View(model);
         }

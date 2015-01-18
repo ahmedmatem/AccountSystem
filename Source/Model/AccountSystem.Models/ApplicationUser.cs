@@ -8,12 +8,12 @@
     public class ApplicationUser : IdentityUser
     {
         protected ICollection<Expense> expenses;
-        protected ICollection<CreditCard> crediCards;
+        protected ICollection<CreditCard> creditCards;
 
         public ApplicationUser()
         {
             this.expenses = new HashSet<Expense>();
-            this.crediCards = new HashSet<CreditCard>();
+            this.creditCards = new HashSet<CreditCard>();
         }
 
         public virtual ICollection<Expense> Expenses
@@ -33,12 +33,12 @@
         {
             get
             {
-                return this.crediCards;
+                return this.creditCards;
             }
 
             private set
             {
-                this.crediCards = value;
+                this.creditCards = value;
             }
         }
 

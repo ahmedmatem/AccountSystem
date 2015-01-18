@@ -14,7 +14,7 @@
 
         public string ValidThru { get; set; }
 
-        public int AccountHolderId { get; set; }
+        public string AccountHolderId { get; set; }
 
         public virtual ApplicationUser AccountHolder { get; set; }
 

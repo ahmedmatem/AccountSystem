@@ -35,7 +35,7 @@
                         @User.Identity.Name <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a id="logoff" href="@Url.Content("~/CreditCard/Index/" + @User.Identity.GetUserId())"><i class="fa fa-credit-card" > Credit card</i></a></li>
+                        <li><a href="@Url.Content("~/CreditCard/Index/" + @User.Identity.GetUserId())"><i class="fa fa-credit-card" > Credit card</i></a></li>
                         <li class="divider"></li>
                         <li><a id="logoff" href="#">Logout</a></li>
                         @*<li><a href="#">Another action</a></li>
