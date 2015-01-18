@@ -22,5 +22,7 @@
         public IDbSet<Work> Works { get; set; }
 
         public IDbSet<Expense> Expenses { get; set; }
+
+        public IDbSet<CreditCard> CreditCards { get; set; }
     }
 }

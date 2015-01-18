@@ -1,25 +1,29 @@
-﻿@model IEnumerable<AccountSystem.Web.Models.WorkViewModel>
+﻿@model IEnumerable<AccountSystem.Web.Models.CreditCardViewModel>
+
+@using AccountSystem.Web.Models
+@using AccountSystem.Models
 
 @{
-    ViewBag.Title = "Works";
+    ViewBag.Title = "Credit card";
+    ApplicationUser accountHolder = ViewBag.AccountHolder as ApplicationUser;
 }
 
 <div>
-    <a href="@Url.Content("~/Works/Create")" class="btn btn-primary"><i class="fa fa-plus"></i> New Work</a>
-    <a href="@Url.Content("~/Works/ShowDeleted")" class="btn btn-primary"><i class="fa fa-list"></i> Show list of deleted works</a>
+    <a href="@Url.Content("~/CreditCard/Create/" + accountHolder.Id)" class="btn btn-primary"><i class="fa fa-plus"></i> New credit card</a>
+    <a href="@Url.Content("~/CreditCard/InvalidCards")" class="btn btn-primary"><i class="fa fa-list"></i> Show invalid credit cards</a>
 </div>
 
 <div>
-    <h3>List of all works</h3>
-    @foreach (var work in Model)
+    <h3>@accountHolder.UserName credit cards</h3>
+    @foreach (CreditCard creditCard in ViewBag.CreditCards)
     {
         <div class="row row-list">
             <div class="col-md-3 col-sm-6 col-xs-6">
-                <span id="@work.Id" class="clickable-div">@work.Customer.Name (@work.Name)</span>
+                <span id="@creditCard.Id" title="Card number: @creditCard.CardNumber" class="clickable-div" ><i class="fa fa-credit-card"></i> @creditCard.Name</span>
             </div>
             <div class="col-md-9 col-sm-6 col-xs-6">
-                <a href="@Url.Content("~/Works/Update/" + work.Id)" title="Edit"><i class="fa fa-edit"></i></a>
-                <a href="@Url.Content("~/Works/Delete/" + work.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
+                <a href="@Url.Content("~/CreditCard/Update/" + creditCard.Id)" title="Edit"><i class="fa fa-edit"></i></a>
+                <a href="@Url.Content("~/CreditCard/Delete/" + creditCard.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
             </div>
         </div>
     }
@@ -27,10 +31,6 @@
 
 <div id="confirm-dialog" title="Confirmation Required">
     <p>Are you sure about this?</p>
-</div>
-
-<div id="info-dialog" title="Work information">
-    <p id="content"></p>
 </div>
 
 @section scripts{
@@ -41,16 +41,6 @@
             $("#confirm-dialog").dialog({
                 autoOpen: false,
                 modal: true
-            });
-
-            $("#info-dialog").dialog({
-                autoOpen: false,
-                modal: true,
-                buttons: {
-                    Ok: function () {
-                        $(this).dialog("close");
-                    }
-                }
             });
         });
 
@@ -84,7 +74,7 @@
 
         $(".clickable-div").click(function () {
             var id = $(this).attr("id");
-            $.get("/Works/Work/" + id, function (data) {
+            $.get("/CreditCard/Info/" + id, function (data) {
                 $("#info-dialog #content").html("");
                 $.each(data, function (i, item) {
                     $("#info-dialog #content").append("<p><strong>" + i + ":</strong> " + (item == null ? "--" : item) + "</p>");
@@ -95,4 +85,3 @@
         });
     </script>
 }
-

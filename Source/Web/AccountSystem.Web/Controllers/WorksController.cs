@@ -21,6 +21,7 @@
                 .Select(w => new WorkViewModel()
                 {
                     Id = w.Id,
+                    Name = w.Name,
                     StartTime = w.StartTime,
                     Price = w.Price,
                     OtherDetails = w.OtherDetails,
@@ -55,6 +56,7 @@
                 var newWork = new Work()
                 {
                     StartTime = model.StartTime,
+                    Name = model.Name,
                     Price = model.Price,
                     OtherDetails = model.OtherDetails,
                     CustomerId = model.Customer.Id,
@@ -86,6 +88,7 @@
                 .Select(w => new WorkViewModel()
                 {
                     Id = id,
+                    Name = w.Name,
                     Customer = w.Customer,
                     StartTime = w.StartTime,
                     Price = w.Price,
@@ -114,6 +117,7 @@
                     .Find(work.Id);
 
                 matchedWork.CustomerId = work.Customer.Id;
+                matchedWork.Name = work.Name;
                 matchedWork.Price = work.Price;
                 matchedWork.StartTime = work.StartTime;
                 matchedWork.OtherDetails = work.OtherDetails;
@@ -167,6 +171,7 @@
                 .Select(w => new WorkViewModel()
                 {
                     Id = w.Id,
+                    Name = w.Name,
                     StartTime = w.StartTime,
                     Price = w.Price,
                     OtherDetails = w.OtherDetails,
@@ -188,7 +193,8 @@
 
             var workInfo = new
             {
-                Name = customer.Name,
+                WorkName = work.Name,
+                CustomerName = customer.Name,
                 Price = work.Price,
                 StartTime = work.StartTime.Month + "/" + work.StartTime.Day + "/" + work.StartTime.Year,
                 Details = work.OtherDetails

@@ -1,0 +1,31 @@
+﻿@model IEnumerable<AccountSystem.Web.Models.CreditCardViewModel>
+
+@using AccountSystem.Web.Models
+@using AccountSystem.Models
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Invalid credit cards";
+    ApplicationUser accountHolder = ViewBag.AccountHolder as ApplicationUser;
+}
+
+<div>
+    <a href="@Url.Content("~/CreditCard/Index/" + User.Identity.GetUserId())" class="btn btn-primary"><i class="fa fa-list"></i> Show valid credit cards</a>
+</div>
+
+<div>
+    <h3>@accountHolder.UserName invalid credit cards</h3>
+    @foreach (CreditCard creditCard in ViewBag.CreditCards)
+    {
+        <div class="row row-list">
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <span id="@creditCard.Id" title="Card number: @creditCard.CardNumber" class="clickable-div"><i class="fa fa-credit-card"></i> @creditCard.Name</span>
+            </div>
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <a href="@Url.Content("~/CreditCard/Restore/" + creditCard.Id)" class="deleteBtn" title="Restore"><i class="fa fa-refresh"></i></a>
+            </div>
+        </div>
+    }
+</div>
+
+

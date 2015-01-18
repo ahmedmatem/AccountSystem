@@ -11,6 +11,10 @@
     {
         public int Id { get; set; }
 
+        [Required]
+        [Display(Name = "Work name")]
+        public string Name { get; set; }
+
         [Display(Name = "Start time")]
         public DateTime StartTime { get; set; }
 

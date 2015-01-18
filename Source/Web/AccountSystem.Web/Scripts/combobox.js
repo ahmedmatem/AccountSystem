@@ -128,9 +128,10 @@
     });
 })(jQuery);
 
-$(function () {
-    $("#combobox").combobox();
-    $("#toggle").click(function () {
-        $("#combobox").toggle();
-    });
-});
+
+//$(function () {
+//    $(".combobox").combobox();
+//    $(".toggle").click(function () {
+//        $(".combobox").toggle();
+//    });
+//});

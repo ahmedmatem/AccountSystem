@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="CreditCard.cs" />
+    <Compile Include="CreditCardType.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Expense.cs" />
     <Compile Include="Order.cs" />

@@ -13,7 +13,7 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string RecieptNumber { get; set; }
+        public string ReceiptNumber { get; set; }
 
         // Total expense amount
         public decimal Amount { get; set; }

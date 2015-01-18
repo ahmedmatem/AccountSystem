@@ -1,0 +1,47 @@
+﻿@model IEnumerable<AccountSystem.Web.Models.ExpenseViewModel>
+
+@{
+    ViewBag.Title = "Expenses";
+}
+
+<div>
+    <a href="@Url.Content("~/Expenses/Create")" class="btn btn-primary"><i class="fa fa-plus"></i> New Expense</a>
+</div>
+
+<div>
+    <h3>List of all expenses</h3>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">Payer</th>
+                <th class="text-center">Customer</th>
+                <th class="text-center">Shop</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Receipt No</th>
+                <th class="text-center">Amount</th>
+                <th class="text-center">Private Amount</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Model)
+            {
+                <tr>
+                    <td>@expense.PayerName</td>
+                    <td>@expense.CustomerName</td>
+                    <td>@expense.ShopName</td>
+                    <td>@expense.CreatedOn</td>
+                    <td>@expense.ReceiptNumber</td>
+                    <td>@expense.Amount</td>
+                    <td>@expense.PrivateAmount</td>
+                    <td>
+                        <a href="@Url.Content("~/Expenses/Update/" + expense.Id)" title="Edit"><i class="fa fa-edit"></i></a>
+                        <a href="@Url.Content("~/Expenses/Delete/" + expense.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -15,10 +15,16 @@
     @Html.AntiForgeryToken()
 
     <div class="control-group">
-        @Html.LabelFor(m => m.Customer.Name, new { @class = "control-label" })
+        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.Customer.Name, "Ccustomer name", new { @class = "control-label" })
         <div class="controls">
             <div class="ui-widget">
-                @Html.DropDownListFor(m => m.Customer.Id, new List<SelectListItem>(ViewBag.Customers), "", new { id = "combobox" })
+                @Html.DropDownListFor(m => m.Customer.Id, new List<SelectListItem>(ViewBag.Customers), "", new { @class = "combobox" })
             </div>
             @Html.ValidationMessageFor(m => m.Customer.Id, "The Name field is required.")
         </div>

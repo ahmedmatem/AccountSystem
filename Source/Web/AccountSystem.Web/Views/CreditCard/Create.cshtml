@@ -1,0 +1,57 @@
+﻿@using AccountSystem.Web.Extentions
+@using Microsoft.AspNet.Identity
+@model AccountSystem.Web.Models.CreditCardViewModel
+
+@{
+    ViewBag.Title = "Create a credit card";
+}
+
+<div>
+    <a href="@Url.Content("~/CreditCard/Index/" + @User.Identity.GetUserId())" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+</div>
+
+<div><h3>Create a credit card</h3></div>
+
+@using (Html.BeginForm("Create", "CreditCard", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="control-group">
+        @Html.LabelFor(m => m.CreditCardName, new { @class = "control-label" })
+        <div class="controls">
+            @Html.EnumDropDownListFor(m => m.CreditCardName, Model.CreditCardType, new { id = "creditcard-combobox" })
+            @Html.ValidationMessageFor(m => m.CreditCardName)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.CardNumber, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.CardNumber)
+            @Html.ValidationMessageFor(m => m.CardNumber)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.ValidThru, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.ValidThru)
+            @Html.ValidationMessageFor(m => m.ValidThru)
+        </div>
+    </div>
+    <br />
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="@Url.Content("~/CreditCard/Index/" + User.Identity.GetUserId())" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="~/Scripts/combobox.js"></script>
+    <script>
+        $(function () {
+            $("#creditcard-combobox").combobox();
+        });
+    </script>
+}

@@ -1,0 +1,119 @@
+﻿@model AccountSystem.Web.Models.ExpenseViewModel
+
+@{
+    ViewBag.Title = "Create an expense";
+}
+
+<div>
+    <a href="@Url.Content("~/Expenses")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+</div>
+
+<div><h3>Create new expense</h3></div>
+
+@using (Html.BeginForm("Create", "Expenses", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
+{
+    @Html.AntiForgeryToken()    
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.PayerName, "Payer name", new { @class = "control-label" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.PayerName, Model.Payers, "", new { id = "payer-combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.PayerName, "The Payer name field is required.")
+        </div>
+    </div>
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.CustomerName, "Customer name", new { @class = "control-label" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.CustomerName, Model.Customers, "", new { id = "customer-combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Customers, "The Customers field is required.")
+        </div>
+    </div>
+    
+    <div class="control-group" id="work-list">
+        @Html.LabelFor(m => m.WorkName, "Work name", new { @class = "control-label" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.WorkName, new List<SelectListItem>(), "", new { id = "work-combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Customers, "The Customers field is required.")
+        </div>
+    </div>
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.ShopName, "Shop name", new { @class = "control-form" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.ShopName, Model.ShopNames, "select shop", new { @class = "combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.ShopName, "The Shop name field is required.")
+        </div>
+    </div>
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.CreatedOn, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.CreatedOn, new { id = "datepicker" } )
+        </div>
+    </div>
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.ReceiptNumber, "Receipt number", new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.ReceiptNumber)
+        </div>
+    </div>
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.Amount, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Amount)
+        </div>
+    </div>
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.PrivateAmount, "Private amount", new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.PrivateAmount)
+        </div>
+    </div>
+    
+    <br />
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="@Url.Content("~/Customers/Index")" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="~/Scripts/combobox.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                showOn: "button",
+                buttonImage: "/content/images/calendar.png",
+                buttonImageOnly: true,
+                buttonText: "Select date"
+            });
+
+            $("#payer-combobox").combobox();
+            $("#customer-combobox").combobox({
+                select: function (event, ui) {
+                    alert(this.value);
+                }
+            });
+            $("#work-combobox").combobox();
+
+            //$(".toggle").click(function () {
+            //    $("#customer-combobox").toggle();
+            //});
+        });
+    </script>
+}

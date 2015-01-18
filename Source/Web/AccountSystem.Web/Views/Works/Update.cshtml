@@ -17,7 +17,13 @@
     @Html.HiddenFor(m => m.Id)
 
     <div class="control-group">
-        @Html.LabelFor(m => m.Customer.Name, new { @class = "control-label" })
+        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.Customer.Name, "Customer name", new { @class = "control-label" })
         <div class="controls">
             <div class="ui-widget">
                 @Html.DropDownListFor(m => m.Customer.Id, new List<SelectListItem>(ViewBag.Customers), "", new { id = "combobox" })

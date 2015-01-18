@@ -1,7 +1,11 @@
 ﻿namespace AccountSystem.Web.Models
 {
     using System;
+    using System.Web.WebPages.Html;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using AccountSystem.Models;
 
     public class CustomerViewModel
     {

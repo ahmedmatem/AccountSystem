@@ -1,5 +1,6 @@
 ﻿@using AccountSystem.Web.Extentions
 @using System.Web.Configuration
+@using Microsoft.AspNet.Identity
 
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,9 @@
 <body>
     <div class="container">
         <ul class="nav nav-tabs">
+            <li class="@Html.IsSelected(controller : "Expenses")" @*class="active"*@>
+                <a href="@Url.Content("~/Expenses")">Expenses</a>
+            </li>
             <li class="@Html.IsSelected(controller : "Customers")" @*class="active"*@>
                 <a href="@Url.Content("~/Customers")">Customers</a>
             </li>
@@ -31,6 +35,8 @@
                         @User.Identity.Name <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
+                        <li><a id="logoff" href="@Url.Content("~/CreditCard/Index/" + @User.Identity.GetUserId())"><i class="fa fa-credit-card" > Credit card</i></a></li>
+                        <li class="divider"></li>
                         <li><a id="logoff" href="#">Logout</a></li>
                         @*<li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>
