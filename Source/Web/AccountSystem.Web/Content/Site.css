@@ -12,6 +12,14 @@
 .hidden {
     display: none;
 }
+/* colors */
+.color-red {
+    color: red;
+}
+
+.color-grey {
+    color: grey;
+}
 
 /* Set width on the form input elements since they're 100% wide by default */
 /*input,
@@ -62,7 +70,7 @@ input[type="checkbox"].input-validation-error {
     margin-right: 15px;
 }
 
-.form-custome input, textarea{
+.form-custome input[type="text"], textarea{
     width: 200px;
 }
 

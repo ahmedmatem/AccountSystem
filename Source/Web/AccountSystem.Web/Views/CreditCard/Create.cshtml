@@ -17,10 +17,17 @@
     @Html.AntiForgeryToken()
 
     <div class="control-group">
-        @Html.LabelFor(m => m.CreditCardName, new { @class = "control-label" })
+        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
         <div class="controls">
-            @Html.EnumDropDownListFor(m => m.CreditCardName, Model.CreditCardType, new { id = "creditcard-combobox" })
-            @Html.ValidationMessageFor(m => m.CreditCardName)
+            @Html.TextBoxFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.BankName, new { @class = "control-label" })
+        <div class="controls">
+            @Html.EnumDropDownListFor(m => m.BankName, Model.BankName, new { id = "creditcard-combobox" })
+            @Html.ValidationMessageFor(m => m.BankName)
         </div>
     </div>
     <div class="control-group">

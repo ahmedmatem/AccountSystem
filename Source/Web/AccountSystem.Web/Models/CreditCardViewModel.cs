@@ -12,17 +12,20 @@
     {
         public CreditCardViewModel()
         {
-            this.CreditCardType = new CreditCardType();
+            //this.CreditCardType = new CreditCardType();
         }
 
         public int CreditCardId { get; set; }
 
         [Required]
-        [Display(Name="Credit card")]
-        public CreditCardType CreditCardName { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public CreditCardType CreditCardType { get; set; }
+        [Display(Name="Credit card")]
+        public CreditCardType BankName { get; set; }
+
+        //[Required]
+        //public CreditCardType CreditCardType { get; set; }
 
         [Required]
         [Display(Name="Card number")]

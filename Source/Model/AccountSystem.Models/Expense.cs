@@ -21,18 +21,20 @@
         // PrivateAmount is a part of expense Amount for personal use
         public decimal PrivateAmount { get; set; }
 
-        public int PayerId { get; set; }
-
-        public virtual ApplicationUser Payer { get; set; }
+        public string PayerId { get; set; }
 
         public int CustomerId { get; set; }
 
-        public virtual Customer Customer { get; set; }
-
         public int ShopId { get; set; }
 
+        public int CreditCardId { get; set; }
+
+        public bool IsCreditCardPayment { get; set; }
+
+        public virtual ApplicationUser Payer { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
         public virtual Shop Shop { get; set; }
-
-
     }
 }

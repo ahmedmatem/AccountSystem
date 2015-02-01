@@ -11,16 +11,16 @@
 <div>
     <h3>List of all expenses</h3>
 
-    <table class="table table-bordered">
+    <table class="table ">
         <thead>
             <tr>
-                <th class="text-center">Payer</th>
-                <th class="text-center">Customer</th>
-                <th class="text-center">Shop</th>
+                <th class="text-left">Payer</th>
+                <th class="text-left">Customer</th>
+                <th class="text-left">Shop</th>
                 <th class="text-center">Date</th>
                 <th class="text-center">Receipt No</th>
-                <th class="text-center">Amount</th>
-                <th class="text-center">Private Amount</th>
+                <th class="text-right">Amount</th>
+                <th class="text-right">Private Amount</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -28,14 +28,24 @@
             @foreach (var expense in Model)
             {
                 <tr>
-                    <td>@expense.PayerName</td>
+                    <td>
+                        @if (expense.IsCreditCardPayment)
+                        {
+                            <i class="fa fa-credit-card"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-money"></i>
+                        }
+                        @expense.PayerName
+                    </td>
                     <td>@expense.CustomerName</td>
                     <td>@expense.ShopName</td>
-                    <td>@expense.CreatedOn</td>
-                    <td>@expense.ReceiptNumber</td>
-                    <td>@expense.Amount</td>
-                    <td>@expense.PrivateAmount</td>
-                    <td>
+                    <td class="text-center">@expense.CreatedOn.ToShortDateString()</td>
+                    <td class="text-center">@expense.ReceiptNumber</td>
+                    <td class="text-right"><i class="fa fa-gbp"></i> @expense.Amount</td>
+                    <td class="text-right"><i class="fa fa-gbp"></i> @expense.PrivateAmount</td>
+                    <td class="text-center">
                         <a href="@Url.Content("~/Expenses/Update/" + expense.Id)" title="Edit"><i class="fa fa-edit"></i></a>
                         <a href="@Url.Content("~/Expenses/Delete/" + expense.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
                     </td>

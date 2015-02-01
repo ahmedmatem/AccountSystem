@@ -48,7 +48,8 @@
 
                 var creditCard = new CreditCard()
                 {
-                    Name = model.CreditCardName,
+                    Name = model.Name,
+                    BankName = model.BankName,
                     CardNumber = model.CardNumber,
                     ValidThru = model.ValidThru,
                     IsActive = true,
@@ -74,7 +75,8 @@
             var model = new CreditCardViewModel()
             {
                 CreditCardId = matchedCrediCard.Id,
-                CreditCardName = matchedCrediCard.Name,
+                Name = matchedCrediCard.Name,
+                BankName = matchedCrediCard.BankName,
                 CardNumber = matchedCrediCard.CardNumber,
                 ValidThru = matchedCrediCard.ValidThru,
             };
@@ -92,7 +94,8 @@
             {
                 var matchedCreditCard = this.context.CreditCards.Find(model.CreditCardId);
 
-                matchedCreditCard.Name = model.CreditCardName;
+                matchedCreditCard.Name = model.Name;
+                matchedCreditCard.BankName = model.BankName;
                 matchedCreditCard.CardNumber = model.CardNumber;
                 matchedCreditCard.ValidThru = model.ValidThru;
 
@@ -150,7 +153,8 @@
                 .Select(c => new CreditCardViewModel()
                 {
                     CreditCardId = c.Id,
-                    CreditCardName = c.Name,
+                    Name = c.Name,
+                    BankName = c.BankName,
                     CardNumber = c.CardNumber,
                     ValidThru = c.ValidThru
                 }).ToList();

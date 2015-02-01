@@ -1,4 +1,5 @@
-﻿@model AccountSystem.Web.Models.ExpenseViewModel
+﻿@using AccountSystem.Web.Extentions
+@model AccountSystem.Web.Models.ExpenseViewModel
 
 @{
     ViewBag.Title = "Create an expense";
@@ -12,7 +13,7 @@
 
 @using (Html.BeginForm("Create", "Expenses", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
 {
-    @Html.AntiForgeryToken()    
+    @Html.AntiForgeryToken() 
     
     <div class="control-group">
         @Html.LabelFor(m => m.PayerName, "Payer name", new { @class = "control-label" })
@@ -30,7 +31,7 @@
             <div class="ui-widget">
                 @Html.DropDownListFor(m => m.CustomerName, Model.Customers, "", new { id = "customer-combobox" })
             </div>
-            @Html.ValidationMessageFor(m => m.Customers, "The Customers field is required.")
+            @Html.ValidationMessageFor(m => m.CustomerName, "The Customer name field is required.")
         </div>
     </div>
     
@@ -40,7 +41,7 @@
             <div class="ui-widget">
                 @Html.DropDownListFor(m => m.WorkName, new List<SelectListItem>(), "", new { id = "work-combobox" })
             </div>
-            @Html.ValidationMessageFor(m => m.Customers, "The Customers field is required.")
+            @Html.ValidationMessageFor(m => m.WorkName, "The Work name field is required.")
         </div>
     </div>
     
@@ -48,7 +49,7 @@
         @Html.LabelFor(m => m.ShopName, "Shop name", new { @class = "control-form" })
         <div class="controls">
             <div class="ui-widget">
-                @Html.DropDownListFor(m => m.ShopName, Model.ShopNames, "select shop", new { @class = "combobox" })
+                @Html.DropDownListFor(m => m.ShopName, Model.ShopNames, "select shop", new { id = "shop-combobox" })
             </div>
             @Html.ValidationMessageFor(m => m.ShopName, "The Shop name field is required.")
         </div>
@@ -72,6 +73,11 @@
         @Html.LabelFor(m => m.Amount, new { @class = "control-label" })
         <div class="controls">
             @Html.TextBoxFor(m => m.Amount)
+            @Html.CheckBoxFor(m => m.IsCreditCardPayment) <i class="fa fa-credit-card"></i>
+            <span id="creditCard-list">
+                @Html.DropDownListFor(m => m.CreditCardId, new SelectList(ViewBag.AccountHoldersCreditCards, "Value", "Text"), new { id = "creditcard-combobox" })
+                @Html.ValidationMessageFor(m => m.CreditCardId)
+            </span>
         </div>
     </div>
     
@@ -86,7 +92,7 @@
     <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">Create</button>
-            <a href="@Url.Content("~/Customers/Index")" class="btn btn-danger">Cancel</a>
+            <a href="@Url.Content("~/Expenses")" class="btn btn-danger">Cancel</a>
         </div>
     </div>
 }
@@ -101,6 +107,11 @@
     <script>
         $(function () {
             $("#work-list").hide();
+            $("#creditCard-list").hide();
+
+            if ($("#customer-combobox").val() != "") {
+                $("#work-list").show();
+            }
 
             $("#datepicker").datepicker({
                 showOn: "button",
@@ -134,6 +145,18 @@
             });
 
             $("#work-combobox").combobox();
+            $("#shop-combobox").combobox();
+            $("#creditcard-combobox").combobox();
+
+            $("input[type='checkbox']").change(function () {
+                if ($(this).is(":checked")) {
+                    $(this).nextAll(".fa-credit-card").addClass("color-red");
+                    $("#creditCard-list").show();
+                } else {
+                    $(this).nextAll(".fa-credit-card").removeClass("color-red");
+                    $("#creditCard-list").hide();
+                }
+            });
         });
     </script>
 }

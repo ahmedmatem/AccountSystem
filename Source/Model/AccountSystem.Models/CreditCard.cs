@@ -8,7 +8,9 @@
         [Key]
         public int Id { get; set; }
 
-        public CreditCardType Name { get; set; }
+        public string Name { get; set; }
+
+        public CreditCardType BankName { get; set; }
 
         public string CardNumber { get; set; }
 
