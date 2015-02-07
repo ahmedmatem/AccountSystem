@@ -11,7 +11,19 @@
         [Key]
         public int Id { get; set; }
 
+        public int ParentId { get; set; }
+
+        public string Author { get; set; }
+
         public DateTime CreatedOn { get; set; }
+
+        public DateTime ModifiedOn { get; set; }
+
+        public ActionType Action { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public string ReceiptNumber { get; set; }
 
@@ -25,6 +37,8 @@
 
         public int CustomerId { get; set; }
 
+        public int WorkId { get; set; }
+
         public int ShopId { get; set; }
 
         public int CreditCardId { get; set; }
@@ -36,5 +50,7 @@
         public virtual Customer Customer { get; set; }
 
         public virtual Shop Shop { get; set; }
+
+        public string TextColor { get; set; }
     }
 }

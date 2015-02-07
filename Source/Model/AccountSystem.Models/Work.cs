@@ -15,8 +15,6 @@
 
         public DateTime StartTime { get; set; }
 
-        //public ICollection<WorkType> Types { get; set; }
-
         public decimal Price { get; set; }
 
         public string OtherDetails { get; set; }
@@ -25,6 +23,6 @@
 
         public int CustomerId { get; set; }
 
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

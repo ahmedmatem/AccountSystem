@@ -261,6 +261,7 @@
     <Content Include="Views\CreditCard\Index.cshtml" />
     <Content Include="Views\CreditCard\Update.cshtml" />
     <Content Include="Views\CreditCard\InvalidCards.cshtml" />
+    <Content Include="Views\Expenses\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -301,7 +302,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2827</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2834/</IISUrl>
+          <IISUrl>http://localhost:2835/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

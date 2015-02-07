@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th class="text-left">Payer</th>
+                <th class="text-left">Work</th>
                 <th class="text-left">Customer</th>
                 <th class="text-left">Shop</th>
                 <th class="text-center">Date</th>
@@ -27,7 +28,7 @@
         <tbody>
             @foreach (var expense in Model)
             {
-                <tr>
+                <tr style="color: @expense.TextColor">
                     <td>
                         @if (expense.IsCreditCardPayment)
                         {
@@ -39,6 +40,7 @@
                         }
                         @expense.PayerName
                     </td>
+                    <td>@expense.WorkName</td>
                     <td>@expense.CustomerName</td>
                     <td>@expense.ShopName</td>
                     <td class="text-center">@expense.CreatedOn.ToShortDateString()</td>
@@ -46,6 +48,7 @@
                     <td class="text-right"><i class="fa fa-gbp"></i> @expense.Amount</td>
                     <td class="text-right"><i class="fa fa-gbp"></i> @expense.PrivateAmount</td>
                     <td class="text-center">
+                        <a href="#"><i class="fa fa-history" title="@expense.Action by @expense.Author at @expense.ModifiedOn"></i></a>
                         <a href="@Url.Content("~/Expenses/Update/" + expense.Id)" title="Edit"><i class="fa fa-edit"></i></a>
                         <a href="@Url.Content("~/Expenses/Delete/" + expense.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
                     </td>
@@ -55,3 +58,50 @@
     </table>
 
 </div>
+
+<div id="confirm-dialog" title="Confirmation Required">
+    <p>Are you sure about this?</p>
+</div>
+
+@section scripts{
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#confirm-dialog").dialog({
+                autoOpen: false,
+                modal: true
+            });
+        });
+
+        $(".deleteBtn").click(function (e) {
+            e.preventDefault();
+            var targetUrl = $(this).attr("href");
+
+            $("#confirm-dialog").dialog({
+                buttons: {
+                    "Delete": function () {
+                        window.location.href = targetUrl;
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function (e) {
+                        e.preventDefault();
+                        $(this).dialog("close");
+                    }
+                },
+                show: {
+                    effect: "fade",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "fade",
+                    duration: 1000
+                }
+            });
+
+            $("#confirm-dialog").dialog("open");
+        });
+    </script>
+}
+
+

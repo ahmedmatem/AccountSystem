@@ -10,7 +10,19 @@
     public class ExpenseViewModel
     {
         public int Id { get; set; }
-        
+
+        public int ParentId { get; set; }
+
+        public DateTime ModifiedOn { get; set; }
+
+        public string Author { get; set; }
+
+        public string Action { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         public string PayerName { get; set; }
 
         public IEnumerable<SelectListItem> Payers { get; set; }
@@ -23,12 +35,12 @@
         [Required]
         public string ShopName { get; set; }
 
-        public IEnumerable<SelectListItem> ShopNames { get; set; }
+        public IEnumerable<SelectListItem> Shops { get; set; }
 
         [Required]
         public string WorkName { get; set; }
 
-        public IEnumerable<SelectListItem> WorkNames { get; set; }
+        public IEnumerable<SelectListItem> Works { get; set; }
 
         [Required]
         public DateTime CreatedOn { get; set; }
@@ -47,5 +59,9 @@
         [Required]
         [Display(Name = "Credit card")]
         public int CreditCardId { get; set; }
+
+        public virtual IEnumerable<SelectListItem> CreditCards { get; set; }
+
+        public string TextColor { get; set; }
     }
 }

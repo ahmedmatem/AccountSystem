@@ -2,19 +2,21 @@
 @model AccountSystem.Web.Models.ExpenseViewModel
 
 @{
-    ViewBag.Title = "Create an expense";
+    ViewBag.Title = "Update an expense";
 }
 
 <div>
     <a href="@Url.Content("~/Expenses")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
 </div>
 
-<div><h3>Create new expense</h3></div>
+<div><h3>Update an expense</h3></div>
 
-@using (Html.BeginForm("Create", "Expenses", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
+@using (Html.BeginForm("Update", "Expenses", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
 {
-    @Html.AntiForgeryToken() 
+    @Html.AntiForgeryToken()
     
+    @Html.HiddenFor(m => m.Id)
+
     <div class="control-group">
         @Html.LabelFor(m => m.PayerName, "Payer name", new { @class = "control-label" })
         <div class="controls">
@@ -24,7 +26,7 @@
             @Html.ValidationMessageFor(m => m.PayerName, "The Payer name field is required.")
         </div>
     </div>
-    
+
     <div class="control-group">
         @Html.LabelFor(m => m.CustomerName, "Customer name", new { @class = "control-label" })
         <div class="controls">
@@ -34,7 +36,7 @@
             @Html.ValidationMessageFor(m => m.CustomerName, "The Customer name field is required.")
         </div>
     </div>
-    
+
     <div class="control-group" id="work-list">
         @Html.LabelFor(m => m.WorkName, "Work name", new { @class = "control-label" })
         <div class="controls">
@@ -44,7 +46,7 @@
             @Html.ValidationMessageFor(m => m.WorkName, "The Work name field is required.")
         </div>
     </div>
-    
+
     <div class="control-group">
         @Html.LabelFor(m => m.ShopName, "Shop name", new { @class = "control-form" })
         <div class="controls">
@@ -54,44 +56,44 @@
             @Html.ValidationMessageFor(m => m.ShopName, "The Shop name field is required.")
         </div>
     </div>
-    
+
     <div class="control-group">
         @Html.LabelFor(m => m.CreatedOn, new { @class = "control-label" })
         <div class="controls">
-            @Html.TextBoxFor(m => m.CreatedOn, " ", new { id = "datepicker" } )
+            @Html.TextBoxFor(m => m.CreatedOn, " ", new { id = "datepicker" })
         </div>
     </div>
-    
+
     <div class="control-group">
         @Html.LabelFor(m => m.ReceiptNumber, "Receipt number", new { @class = "control-label" })
         <div class="controls">
             @Html.TextBoxFor(m => m.ReceiptNumber)
         </div>
     </div>
-    
+
     <div class="control-group">
         @Html.LabelFor(m => m.Amount, new { @class = "control-label" })
         <div class="controls">
             @Html.TextBoxFor(m => m.Amount)
             @Html.CheckBoxFor(m => m.IsCreditCardPayment) <i class="fa fa-credit-card"></i>
             <span id="creditCard-list">
-                @Html.DropDownListFor(m => m.CreditCardId, Model.CreditCards, new { id = "creditcard-combobox" })
+                @Html.DropDownListFor(m => m.CreditCardId, Model.CreditCards, "", new { id = "creditcard-combobox" })
                 @Html.ValidationMessageFor(m => m.CreditCardId)
             </span>
         </div>
     </div>
-    
+
     <div class="control-group">
         @Html.LabelFor(m => m.PrivateAmount, "Private amount", new { @class = "control-label" })
         <div class="controls">
             @Html.TextBoxFor(m => m.PrivateAmount)
         </div>
     </div>
-    
+
     <br />
     <div class="control-group">
         <div class="controls">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <a href="@Url.Content("~/Expenses")" class="btn btn-danger">Cancel</a>
         </div>
     </div>
@@ -105,51 +107,70 @@
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <script src="~/Scripts/combobox.js"></script>
     <script>
-        $(function () {
-            $("#work-list").hide();
-            $("#creditCard-list").hide();
+    $(document).ready(function () {
+        $("#work-list").hide();
+        $("#creditCard-list").hide();
 
-            if ($("#customer-combobox").val() != "") {
+        if ($("#customer-combobox").val() != "") {
+            $("#work-list").show();
+        }
+
+        $("#datepicker").datepicker({
+            showOn: "button",
+            buttonImage: "/content/images/calendar.png",
+            buttonImageOnly: true,
+            buttonText: "Select date"
+        });
+        $("#datepicker").datepicker("setDate", "@Model.CreatedOn");
+
+        $("#payer-combobox").combobox();
+
+        $("#customer-combobox").combobox({
+            select: function (event, ui) {
+                $("#work-combobox").html("");
+                var customerId = $("#customer-combobox").val();
+                $.get("../GetCustomerWorks/" + customerId, function (result) {
+                    var options = "";
+                    $.each(result, function (key, value) {
+                        options += "<option value=" + value["Value"] + ">" + value["Text"] + "</option>";
+                    });
+                    $("#work-combobox").append(options);
+                });
+
                 $("#work-list").show();
             }
-
-            $("#datepicker").datepicker({
-                showOn: "button",
-                buttonImage: "/content/images/calendar.png",
-                buttonImageOnly: true,
-                buttonText: "Select date"
-            });
-
-            $("#payer-combobox").combobox();
-            $("#customer-combobox").combobox({
-                select: function (event, ui) {
-                    $("#work-combobox").html("");
-                    var customerId = $("#customer-combobox").val();
-                    $.get("GetCustomerWorks/" + customerId, function (result) {
-                        var options = "";
-                        $.each(result, function (key, value) {
-                            options += "<option value=" + value["Value"] + ">" + value["Text"] + "</option>";
-                        });
-                        $("#work-combobox").append(options);
-                    });
-
-                    $("#work-list").show();
-                }
-            });
-
-            $("#work-combobox").combobox();
-            $("#shop-combobox").combobox();
-            $("#creditcard-combobox").combobox();
-
-            $("input[type='checkbox']").change(function () {
-                if ($(this).is(":checked")) {
-                    $(this).nextAll(".fa-credit-card").addClass("color-red");
-                    $("#creditCard-list").show();
-                } else {
-                    $(this).nextAll(".fa-credit-card").removeClass("color-red");
-                    $("#creditCard-list").hide();
-                }
-            });
         });
-    </script>
+
+        $.get("../GetCustomerWorks/" + @Model.CustomerName + "", function (result) {
+            $("#work-combobox").html("");
+            var options = "";
+            $.each(result, function (key, value) {
+                options += "<option value=" + value["Value"] + ">" + value["Text"] + "</option>";
+            });
+            $("#work-combobox").append(options);
+
+        });
+
+        $("#work-combobox").combobox();
+
+        $("#shop-combobox").combobox();
+
+        $("#creditcard-combobox").combobox();
+        if ($("#IsCreditCardPayment").is(":checked")) {
+            $("#creditCard-list").show();
+        }
+
+        $("input[type='checkbox']").change(function () {
+            if ($(this).is(":checked")) {
+                $(this).nextAll(".fa-credit-card").addClass("color-red");
+                $("#creditCard-list").show();
+            } else {
+                $(this).nextAll(".fa-credit-card").removeClass("color-red");
+                $("#creditCard-list").hide();
+            }
+        });
+    });
+</script>
 }
+
+
