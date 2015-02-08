@@ -128,3 +128,8 @@ input[type="checkbox"].input-validation-error {
 }
 
   /* ----- */
+.table.history {
+    font-size: 0.7em;
+}
+
+/* Jquery Custom UI */

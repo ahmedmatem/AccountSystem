@@ -48,7 +48,10 @@
                     <td class="text-right"><i class="fa fa-gbp"></i> @expense.Amount</td>
                     <td class="text-right"><i class="fa fa-gbp"></i> @expense.PrivateAmount</td>
                     <td class="text-center">
-                        <a href="#"><i class="fa fa-history" title="@expense.Action by @expense.Author at @expense.ModifiedOn"></i></a>
+                        @if(expense.ParentId != 0)
+                        {
+                            <a href="#" class="history" id="@expense.ParentId"><i class="fa fa-history" title="History"></i></a>
+                        }
                         <a href="@Url.Content("~/Expenses/Update/" + expense.Id)" title="Edit"><i class="fa fa-edit"></i></a>
                         <a href="@Url.Content("~/Expenses/Delete/" + expense.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
                     </td>
@@ -63,6 +66,10 @@
     <p>Are you sure about this?</p>
 </div>
 
+<div id="history-dialog" title="History">
+
+</div>
+
 @section scripts{
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <script>
@@ -71,6 +78,29 @@
             $("#confirm-dialog").dialog({
                 autoOpen: false,
                 modal: true
+            });
+
+            $("#history-dialog").dialog({
+                autoOpen: false,
+                height: 300,
+                width: 900,
+                modal: true,
+                //buttons: {
+                //    Close: function () {
+                //        $(this).dialog("close");
+                //    }
+                //}
+            });
+
+            $("a.history").click(function (e) {
+                e.preventDefault();
+
+                $("#history-dialog").dialog("open");
+
+                var expenceId = $(this).attr("id");
+                $.get("@Url.Content("~/expenses/history/")" + expenceId, function (result) {
+                    $("#history-dialog").html(result);
+                });
             });
         });
 

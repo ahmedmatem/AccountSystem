@@ -56,11 +56,12 @@
 
         public bool IsCreditCardPayment { get; set; }
 
-        [Required]
         [Display(Name = "Credit card")]
         public int CreditCardId { get; set; }
 
         public virtual IEnumerable<SelectListItem> CreditCards { get; set; }
+
+        public string CreditCardName { get; set; }
 
         public string TextColor { get; set; }
     }

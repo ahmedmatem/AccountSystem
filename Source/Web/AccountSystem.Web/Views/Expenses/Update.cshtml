@@ -159,6 +159,9 @@
         if ($("#IsCreditCardPayment").is(":checked")) {
             $("#creditCard-list").show();
         }
+        else {
+            $("#creditcard-combobox").val("1");
+        }
 
         $("input[type='checkbox']").change(function () {
             if ($(this).is(":checked")) {

@@ -262,6 +262,7 @@
     <Content Include="Views\CreditCard\Update.cshtml" />
     <Content Include="Views\CreditCard\InvalidCards.cshtml" />
     <Content Include="Views\Expenses\Update.cshtml" />
+    <Content Include="Views\Expenses\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

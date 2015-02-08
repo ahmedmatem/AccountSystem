@@ -26,6 +26,7 @@
                 .Select(e => new ExpenseViewModel()
                 {
                     Id = e.Id,
+                    ParentId = e.ParentId,
                     PayerName = e.Payer.UserName,
                     Action = e.Action.ToString(),
                     CustomerName = e.Customer.Name,
@@ -282,18 +283,49 @@
             return RedirectToAction("index");
         }
 
+        ////
+        //// GET: Expenses/Restore/id
+
+        //public ActionResult Restore(int id)
+        //{
+        //    //var matchedExpense = this.context.Expenses.Find(id);
+
+        //    //matchedExpense.IsActive = true;
+
+        //    //this.context.SaveChanges();
+
+        //    return RedirectToAction("index");
+        //}
+
         //
-        // GET: Expenses/Restore/id
+        // Ajax GET: Expenses/History/parentId
 
-        public ActionResult Restore(int id)
+        public PartialViewResult History(int id)
         {
-            //var matchedExpense = this.context.Expenses.Find(id);
+            var history = this.context.Expenses
+                .Where(e => e.ParentId == id || e.Id == id)
+                .OrderBy(e => e.ModifiedOn)
+                .Select(e => new ExpenseViewModel()
+                {
+                    Id = e.Id,
+                    ParentId = e.ParentId,
+                    PayerName = e.Payer.UserName,
+                    Action = e.Action.ToString(),
+                    CustomerName = e.Customer.Name,
+                    WorkName = this.context.Works.FirstOrDefault(wn => wn.Id == e.WorkId).Name,
+                    ShopName = e.Shop.Name,
+                    CreatedOn = e.CreatedOn,
+                    ReceiptNumber = e.ReceiptNumber,
+                    Amount = e.Amount,
+                    PrivateAmount = e.PrivateAmount,
+                    IsCreditCardPayment = e.IsCreditCardPayment,
+                    TextColor = e.TextColor,
+                    Author = e.Author,
+                    ModifiedOn = e.ModifiedOn,
+                    CreditCardName = this.context.CreditCards.Where(c => c.Id == e.CreditCardId).FirstOrDefault().Name,
+                }).ToList();
 
-            //matchedExpense.IsActive = true;
-
-            //this.context.SaveChanges();
-
-            return RedirectToAction("index");
+            return PartialView("", history);
         }
 	}
 }
