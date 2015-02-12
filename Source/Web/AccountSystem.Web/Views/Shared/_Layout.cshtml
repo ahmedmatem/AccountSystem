@@ -16,10 +16,13 @@
 <body>
     <div class="container">
         <ul class="nav nav-tabs">
-            <li class="@Html.IsSelected(controller : "Expenses")" @*class="active"*@>
+            <li class="@Html.IsSelected(controller : "Revenues")" @*class="active"*@>
+                <a href="@Url.Content("~/Revenues")">Revenues</a>
+            </li>
+            <li class="@Html.IsSelected(controller : "Expenses")">
                 <a href="@Url.Content("~/Expenses")">Expenses</a>
             </li>
-            <li class="@Html.IsSelected(controller : "Customers")" @*class="active"*@>
+            <li class="@Html.IsSelected(controller : "Customers")">
                 <a href="@Url.Content("~/Customers")">Customers</a>
             </li>
             <li class="@Html.IsSelected(controller : "Shops")">

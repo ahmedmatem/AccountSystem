@@ -166,6 +166,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RevenuesController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\WorksController.cs" />
     <Compile Include="Extentions\CustomHelpers.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Models\CreditCardViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\ExpenseViewModel.cs" />
+    <Compile Include="Models\RevenueViewModel.cs" />
     <Compile Include="Models\ShopViewModel.cs" />
     <Compile Include="Models\WorkViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -263,6 +265,9 @@
     <Content Include="Views\CreditCard\InvalidCards.cshtml" />
     <Content Include="Views\Expenses\Update.cshtml" />
     <Content Include="Views\Expenses\History.cshtml" />
+    <Content Include="Views\Revenues\Index.cshtml" />
+    <Content Include="Views\Revenues\Create.cshtml" />
+    <Content Include="Views\Revenues\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -23,6 +23,9 @@
 
         public IDbSet<Expense> Expenses { get; set; }
 
+
+        public IDbSet<Revenue> Revenues { get; set; }
+
         public IDbSet<CreditCard> CreditCards { get; set; }
     }
 }

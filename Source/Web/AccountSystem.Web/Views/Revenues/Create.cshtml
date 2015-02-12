@@ -1,0 +1,131 @@
+﻿@using AccountSystem.Web.Extentions
+@model AccountSystem.Web.Models.RevenueViewModel
+
+@{
+    ViewBag.Title = "Create a revenue";
+}
+
+<div>
+    <a href="@Url.Content("~/Revenues")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+</div>
+
+<div><h3>Create new revenue</h3></div>
+
+@using (Html.BeginForm("Create", "Revenues", FormMethod.Post, new { @class = "form-horizontal form-custome" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="control-group">
+        @Html.LabelFor(m => m.RecipientName, new { @class = "control-label" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.RecipientId, Model.Recipients, "", new { id = "recipient-combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.RecipientId)
+        </div>
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(m => m.CustomerName, new { @class = "control-label" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.CustomerId, Model.Customers, "", new { id = "customer-combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.CustomerId)
+        </div>
+    </div>
+
+    <div class="control-group" id="work-list">
+        @Html.LabelFor(m => m.WorkName, new { @class = "control-label" })
+        <div class="controls">
+            <div class="ui-widget">
+                @Html.DropDownListFor(m => m.WorkId, Model.Works, "", new { id = "work-combobox" })
+            </div>
+            @Html.ValidationMessageFor(m => m.WorkId)
+        </div>
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(m => m.CreatedOn, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.CreatedOn, " ", new { id = "datepicker" })
+        </div>
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(m => m.Amount, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Amount)
+            @Html.CheckBoxFor(m => m.IsCreditCardPayment) <i class="fa fa-credit-card"></i>
+            <span id="creditCard-list">
+                @Html.DropDownListFor(m => m.CreditCardId, Model.CreditCards, new { id = "creditcard-combobox" })
+                @Html.ValidationMessageFor(m => m.CreditCardId)
+            </span>
+        </div>
+    </div>
+
+    <br />
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="@Url.Content("~/Revenues")" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+}
+
+<div id="info-dialog" title="Customer information">
+    <p id="content"></p>
+</div>
+
+@section scripts{
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="~/Scripts/combobox.js"></script>
+    <script>
+        $(function () {
+            $("#work-list").hide();
+            $("#creditCard-list").hide();
+
+            if ($("#customer-combobox").val() != "") {
+                $("#work-list").show();
+            }
+
+            $("#datepicker").datepicker({
+                showOn: "button",
+                buttonImage: "/content/images/calendar.png",
+                buttonImageOnly: true,
+                buttonText: "Select date"
+            });
+
+            $("#recipient-combobox").combobox();
+            $("#customer-combobox").combobox({
+                select: function (event, ui) {
+                    $("#work-combobox").html("");
+                    var customerId = $("#customer-combobox").val();
+                    $.get("GetCustomerWorks/" + customerId, function (result) {
+                        var options = "";
+                        $.each(result, function (key, value) {
+                            options += "<option value=" + value["Value"] + ">" + value["Text"] + "</option>";
+                        });
+                        $("#work-combobox").append(options);
+                    });
+
+                    $("#work-list").show();
+                }
+            });
+
+            $("#work-combobox").combobox();
+            $("#shop-combobox").combobox();
+            $("#creditcard-combobox").combobox();
+
+            $("input[type='checkbox']").change(function () {
+                if ($(this).is(":checked")) {
+                    $(this).nextAll(".fa-credit-card").addClass("color-red");
+                    $("#creditCard-list").show();
+                } else {
+                    $(this).nextAll(".fa-credit-card").removeClass("color-red");
+                    $("#creditCard-list").hide();
+                }
+            });
+        });
+    </script>
+}

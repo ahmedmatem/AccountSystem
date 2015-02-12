@@ -9,12 +9,14 @@
         protected ICollection<Order> orders;
         protected ICollection<Work> works;
         protected ICollection<Expense> expenses;
+        protected ICollection<Revenue> revenues;
 
         public Customer()
         {
             this.orders = new HashSet<Order>();
             this.works = new HashSet<Work>();
             this.expenses = new HashSet<Expense>();
+            this.revenues = new HashSet<Revenue>();
         }
 
         [Key]
@@ -75,6 +77,19 @@
             private set
             {
                 this.expenses = value;
+            }
+        }
+
+        public virtual ICollection<Revenue> Revenues
+        {
+            get
+            {
+                return this.revenues;
+            }
+
+            private set
+            {
+                this.revenues = value;
             }
         }
     }

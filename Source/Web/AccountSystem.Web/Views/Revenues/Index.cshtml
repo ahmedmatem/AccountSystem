@@ -1,59 +1,53 @@
-﻿@model IEnumerable<AccountSystem.Web.Models.ExpenseViewModel>
+﻿@model IEnumerable<AccountSystem.Web.Models.RevenueViewModel>
 
 @{
-    ViewBag.Title = "Expenses";
+    ViewBag.Title = "Revenues";
 }
 
 <div>
-    <a href="@Url.Content("~/Expenses/Create")" class="btn btn-primary"><i class="fa fa-plus"></i> New Expense</a>
+    <a href="@Url.Content("~/Revenues/Create")" class="btn btn-primary"><i class="fa fa-plus"></i> New Revenue</a>
 </div>
 
 <div>
-    <h3>List of all expenses</h3>
+    <h3>List of all revenues</h3>
 
     <table class="table ">
         <thead>
             <tr>
-                <th class="text-left">Payer</th>
+                <th class="text-left">Recipient</th>
                 <th class="text-left">Work</th>
                 <th class="text-left">Customer</th>
-                <th class="text-left">Shop</th>
                 <th class="text-center">Date</th>
-                <th class="text-center">Receipt No</th>
                 <th class="text-right">Amount</th>
-                <th class="text-right">Private Amount</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var expense in Model)
+            @foreach (var revenue in Model)
             {
-                <tr style="color: @expense.TextColor">
+                <tr style="color: @revenue.TextColor">
                     <td>
-                        @if (expense.IsCreditCardPayment)
+                        @if (revenue.IsCreditCardPayment)
                         {
-                            <i class="fa fa-credit-card" title="@expense.CreditCardName"></i>
+                            <i class="fa fa-credit-card" title="@revenue.CreditCardName"></i>
                         }
                         else
                         {
                             <i class="fa fa-money"></i>
                         }
-                        @expense.PayerName
+                        @revenue.RecipientName
                     </td>
-                    <td>@expense.WorkName</td>
-                    <td>@expense.CustomerName</td>
-                    <td>@expense.ShopName</td>
-                    <td class="text-center">@expense.CreatedOn.ToShortDateString()</td>
-                    <td class="text-center">@expense.ReceiptNumber</td>
-                    <td class="text-right"><i class="fa fa-gbp"></i> @expense.Amount</td>
-                    <td class="text-right"><i class="fa fa-gbp"></i> @expense.PrivateAmount</td>
+                    <td>@revenue.WorkName</td>
+                    <td>@revenue.CustomerName</td>
+                    <td class="text-center">@revenue.CreatedOn.ToShortDateString()</td>
+                    <td class="text-right"><i class="fa fa-gbp"></i> @revenue.Amount</td>
                     <td class="text-center">
-                        @if(expense.ParentId != 0)
+                        @if (revenue.ParentId != 0)
                         {
-                            <a href="#" class="history" id="@expense.ParentId"><i class="fa fa-history" title="History"></i></a>
+                            <a href="#" class="history" id="@revenue.ParentId"><i class="fa fa-history" title="History"></i></a>
                         }
-                        <a href="@Url.Content("~/Expenses/Update/" + expense.Id)" title="Edit"><i class="fa fa-edit"></i></a>
-                        <a href="@Url.Content("~/Expenses/Delete/" + expense.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
+                        <a href="@Url.Content("~/Revenues/Update/" + revenue.Id)" title="Edit"><i class="fa fa-edit"></i></a>
+                        <a href="@Url.Content("~/Revenues/Delete/" + revenue.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
                     </td>
                 </tr>
             }
@@ -98,7 +92,7 @@
                 $("#history-dialog").dialog("open");
 
                 var expenceId = $(this).attr("id");
-                $.get("@Url.Content("~/expenses/history/")" + expenceId, function (result) {
+                $.get("@Url.Content("~/revenues/history/")" + expenceId, function (result) {
                     $("#history-dialog").html(result);
                 });
             });
@@ -133,5 +127,3 @@
         });
     </script>
 }
-
-

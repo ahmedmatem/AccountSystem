@@ -37,6 +37,7 @@
                     Amount = e.Amount,
                     PrivateAmount = e.PrivateAmount,
                     IsCreditCardPayment = e.IsCreditCardPayment,
+                    CreditCardName = this.context.CreditCards.FirstOrDefault(c => c.Id == e.CreditCardId).Name,
                     TextColor = e.TextColor,
                     Author = e.Author,
                     ModifiedOn = e.ModifiedOn,
