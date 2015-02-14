@@ -1,18 +1,17 @@
-﻿@model IEnumerable<AccountSystem.Web.Models.ExpenseViewModel>
+﻿
+@model IEnumerable<AccountSystem.Web.Models.RevenueViewModel>
 
 <table class="table history">
     <thead>
         <tr>
             <th class="text-left">Modified</th>
             <th class="text-left">On</th>
-            <th class="text-left">Payer</th>
+            <th class="text-left">Recipient</th>
             <th class="text-left">Work</th>
             <th class="text-left">Customer</th>
-            <th class="text-left">Shop</th>
             <th class="text-center">Date</th>
-            <th class="text-center">Receipt No</th>
             <th class="text-right">Amount</th>
-            <th class="text-right">Private</th>
+            <th class="text-center">Invoice</th>
         </tr>
     </thead>
     <tbody>
@@ -30,15 +29,13 @@
                     {
                         <i class="fa fa-money"></i>
                     }
-                    @record.PayerName
+                    @record.RecipientName
                 </td>
                 <td>@record.WorkName</td>
                 <td>@record.CustomerName</td>
-                <td>@record.ShopName</td>
                 <td class="text-center">@record.CreatedOn.ToShortDateString()</td>
-                <td class="text-center">@record.ReceiptNumber</td>
                 <td class="text-right"><i class="fa fa-gbp"></i> @record.Amount</td>
-                <td class="text-right"><i class="fa fa-gbp"></i> @record.PrivateAmount</td>
+                <td class="text-center">@Html.CheckBoxFor(m => record.HasInvoice)</td>
             </tr>
         }
     </tbody>

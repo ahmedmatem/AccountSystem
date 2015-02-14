@@ -46,6 +46,35 @@
             return View(expenses);
         }
 
+        //
+        // GET: /Expenses/ListDeleted
+        public ActionResult ListDeleted()
+        {
+            var expenses = this.context.Expenses
+                .Where(e => e.IsActive && e.IsDeleted)
+                .Select(e => new ExpenseViewModel()
+                {
+                    Id = e.Id,
+                    ParentId = e.ParentId,
+                    PayerName = e.Payer.UserName,
+                    Action = e.Action.ToString(),
+                    CustomerName = e.Customer.Name,
+                    WorkName = this.context.Works.FirstOrDefault(wn => wn.Id == e.WorkId).Name,
+                    ShopName = e.Shop.Name,
+                    CreatedOn = e.CreatedOn,
+                    ReceiptNumber = e.ReceiptNumber,
+                    Amount = e.Amount,
+                    PrivateAmount = e.PrivateAmount,
+                    IsCreditCardPayment = e.IsCreditCardPayment,
+                    CreditCardName = this.context.CreditCards.FirstOrDefault(c => c.Id == e.CreditCardId).Name,
+                    TextColor = e.TextColor,
+                    Author = e.Author,
+                    ModifiedOn = e.ModifiedOn,
+                }).ToList();
+
+            return View(expenses);
+        }
+
         private void InitializeDropDownFields(ExpenseViewModel model)
         {
             model.Payers = this.context.Users
@@ -260,6 +289,7 @@
             var deletedExpense = new Expense()
             {
                 ParentId = (oldExpense.ParentId == 0 ? oldExpense.Id : oldExpense.ParentId),
+                PayerId = oldExpense.PayerId,
                 Author = User.Identity.Name,
                 CreatedOn = oldExpense.CreatedOn,
                 ModifiedOn = DateTime.Now,
@@ -284,19 +314,41 @@
             return RedirectToAction("index");
         }
 
-        ////
-        //// GET: Expenses/Restore/id
+        //
+        // GET: Expenses/Restore/id
 
-        //public ActionResult Restore(int id)
-        //{
-        //    //var matchedExpense = this.context.Expenses.Find(id);
+        public ActionResult Restore(int id)
+        {
+            var matchedExpense = this.context.Expenses.Find(id);
+            matchedExpense.IsActive = false;
 
-        //    //matchedExpense.IsActive = true;
+            var restoredExpense = new Expense()
+            {
+                ParentId = (matchedExpense.ParentId == 0 ? matchedExpense.Id : matchedExpense.ParentId),
+                PayerId = matchedExpense.PayerId,
+                Author = User.Identity.Name,
+                CreatedOn = matchedExpense.CreatedOn,
+                ModifiedOn = DateTime.Now,
+                Action = ActionType.Restored,
+                IsActive = true,
+                IsDeleted = false,
+                ReceiptNumber = matchedExpense.ReceiptNumber,
+                Amount = matchedExpense.Amount,
+                PrivateAmount = matchedExpense.PrivateAmount,
+                CustomerId = matchedExpense.CustomerId,
+                ShopId = matchedExpense.ShopId,
+                CreditCardId = matchedExpense.CreditCardId,
+                IsCreditCardPayment = matchedExpense.IsCreditCardPayment,
+                TextColor = matchedExpense.TextColor,
+                WorkId = matchedExpense.WorkId,
+            };
 
-        //    //this.context.SaveChanges();
+            this.context.Expenses.Add(restoredExpense);
 
-        //    return RedirectToAction("index");
-        //}
+            this.context.SaveChanges();
+
+            return RedirectToAction("index");
+        }
 
         //
         // Ajax GET: Expenses/History/parentId

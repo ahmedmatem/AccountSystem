@@ -1,56 +1,54 @@
-﻿@model IEnumerable<AccountSystem.Web.Models.RevenueViewModel>
+﻿@model IEnumerable<AccountSystem.Web.Models.ExpenseViewModel>
 
 @{
-    ViewBag.Title = "Revenues";
+    ViewBag.Title = "Expenses";
 }
 
 <div>
-    <a href="@Url.Content("~/Revenues/Create")" class="btn btn-primary"><i class="fa fa-plus"></i> New Revenue</a>
-    <a href="@Url.Content("~/Revenues/ListDeleted")" class="btn btn-primary"><i class="fa fa-search"></i> Show deleted revenues</a>
+    <a href="@Url.Content("~/Expenses")" class="btn btn-primary"><i class="fa fa-search"></i> Show active expenses</a>
 </div>
 
 <div>
-    <h3>List of all revenues</h3>
+    <h3>List of all deleted expenses</h3>
 
     <table class="table ">
         <thead>
             <tr>
-                <th class="text-left">Recipient</th>
+                <th class="text-left">Payer</th>
                 <th class="text-left">Work</th>
                 <th class="text-left">Customer</th>
+                <th class="text-left">Shop</th>
                 <th class="text-center">Date</th>
+                <th class="text-center">Receipt No</th>
                 <th class="text-right">Amount</th>
-                <th class="text-center">Invoice</th>
+                <th class="text-right">Private Amount</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var revenue in Model)
+            @foreach (var expense in Model)
             {
-                <tr style="color: @revenue.TextColor">
+                <tr style="color: @expense.TextColor">
                     <td>
-                        @if (revenue.IsCreditCardPayment)
+                        @if (expense.IsCreditCardPayment)
                         {
-                            <i class="fa fa-credit-card" title="@revenue.CreditCardName"></i>
+                            <i class="fa fa-credit-card" title="@expense.CreditCardName"></i>
                         }
                         else
                         {
                             <i class="fa fa-money"></i>
                         }
-                        @revenue.RecipientName
+                        @expense.PayerName
                     </td>
-                    <td>@revenue.WorkName</td>
-                    <td>@revenue.CustomerName</td>
-                    <td class="text-center">@revenue.CreatedOn.ToShortDateString()</td>
-                    <td class="text-right"><i class="fa fa-gbp"></i> @revenue.Amount</td>
-                    <td class="text-center">@Html.CheckBoxFor(m => revenue.HasInvoice, new { id=revenue.Id}) <button class="btn btn-primary btn-xs">Invoice</button></td>
+                    <td>@expense.WorkName</td>
+                    <td>@expense.CustomerName</td>
+                    <td>@expense.ShopName</td>
+                    <td class="text-center">@expense.CreatedOn.ToShortDateString()</td>
+                    <td class="text-center">@expense.ReceiptNumber</td>
+                    <td class="text-right"><i class="fa fa-gbp"></i> @expense.Amount</td>
+                    <td class="text-right"><i class="fa fa-gbp"></i> @expense.PrivateAmount</td>
                     <td class="text-center">
-                        @if (revenue.ParentId != 0)
-                        {
-                            <a href="#" class="history" id="@revenue.ParentId"><i class="fa fa-history" title="History"></i></a>
-                        }
-                        <a href="@Url.Content("~/Revenues/Update/" + revenue.Id)" title="Edit"><i class="fa fa-edit"></i></a>
-                        <a href="@Url.Content("~/Revenues/Delete/" + revenue.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
+                        <a href="@Url.Content("~/Expenses/Restore/" + expense.Id)" class="restoreBtn" title="Restore"><i class="fa fa-refresh"></i></a>
                     </td>
                 </tr>
             }
@@ -64,7 +62,7 @@
 </div>
 
 <div id="history-dialog" title="History">
-    <i class="fa fa-3x fa-spinner fa-pulse"></i>
+
 </div>
 
 @section scripts{
@@ -94,29 +92,20 @@
 
                 $("#history-dialog").dialog("open");
 
-
                 var expenceId = $(this).attr("id");
-                $.get("@Url.Content("~/revenues/history/")" + expenceId, function (result) {
+                $.get("@Url.Content("~/expenses/history/")" + expenceId, function (result) {
                     $("#history-dialog").html(result);
-                });
-            });
-
-            $(":checkbox").change(function () {
-                var revenueId = $(this).attr("id");
-                var hasInvoice = $(this).is(":checked");
-                $.get("@Url.Content("~/revenues/hasinvoice/")", { id: revenueId, invoice: hasInvoice }, function (result) {
-                    //$("#history-dialog").html(result);
                 });
             });
         });
 
-        $(".deleteBtn").click(function (e) {
+        $(".restoreBtn").click(function (e) {
             e.preventDefault();
             var targetUrl = $(this).attr("href");
 
             $("#confirm-dialog").dialog({
                 buttons: {
-                    "Delete": function () {
+                    "Restore": function () {
                         window.location.href = targetUrl;
                         $(this).dialog("close");
                     },
@@ -139,3 +128,7 @@
         });
     </script>
 }
+
+
+
+

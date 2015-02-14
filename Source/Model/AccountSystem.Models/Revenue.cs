@@ -50,6 +50,8 @@
 
         //public virtual Shop Shop { get; set; }
 
+        public bool HasInvoice { get; set; }
+
         public string TextColor { get; set; }
     }
 }

@@ -62,6 +62,8 @@
 
         public string CreditCardName { get; set; }
 
+        public bool HasInvoice { get; set; }
+
         public string TextColor { get; set; }
     }
 }

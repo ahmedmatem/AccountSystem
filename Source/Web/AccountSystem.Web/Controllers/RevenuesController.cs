@@ -38,6 +38,34 @@
                     CreditCardName = this.context.CreditCards.FirstOrDefault(c => c.Id == r.CreditCardId).Name,
                     TextColor = r.TextColor,
                     Author = r.Author,
+                    HasInvoice = r.HasInvoice,
+                    ModifiedOn = r.ModifiedOn,
+                }).ToList();
+
+            return View(revenues);
+        }
+
+        //
+        // GET: /Revenues/ListDeleted
+        public ActionResult ListDeleted()
+        {
+            var revenues = this.context.Revenues
+                .Where(r => r.IsActive && r.IsDeleted)
+                .Select(r => new RevenueViewModel()
+                {
+                    Id = r.Id,
+                    ParentId = r.ParentId,
+                    RecipientName = r.Recipient.UserName,
+                    Action = r.Action.ToString(),
+                    CustomerName = r.Customer.Name,
+                    WorkName = this.context.Works.FirstOrDefault(wn => wn.Id == r.WorkId).Name,
+                    CreatedOn = r.CreatedOn,
+                    Amount = r.Amount,
+                    IsCreditCardPayment = r.IsCreditCardPayment,
+                    CreditCardName = this.context.CreditCards.FirstOrDefault(c => c.Id == r.CreditCardId).Name,
+                    TextColor = r.TextColor,
+                    Author = r.Author,
+                    HasInvoice = r.HasInvoice,
                     ModifiedOn = r.ModifiedOn,
                 }).ToList();
 
@@ -226,6 +254,113 @@
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //
+        // AJAX: Revenues/HasInvoice
+
+        public void HasInvoice(int id, bool invoice)
+        {
+            var matchedRevenue = this.context.Revenues.Find(id);
+
+            matchedRevenue.HasInvoice = invoice;
+
+            this.context.SaveChanges();
+        }
+
+        //
+        // GET: Revenues/Delete/id
+
+        public ActionResult Delete(int id)
+        {
+            var oleRevenue = this.context.Revenues.Find(id);
+            oleRevenue.IsActive = false;
+
+            var deletedRevenue = new Revenue()
+            {
+                ParentId = (oleRevenue.ParentId == 0 ? oleRevenue.Id : oleRevenue.ParentId),
+                RecipientId = oleRevenue.RecipientId,
+                Author = User.Identity.Name,
+                CreatedOn = oleRevenue.CreatedOn,
+                ModifiedOn = DateTime.Now,
+                Action = ActionType.Deleted,
+                IsActive = true,
+                IsDeleted = true,
+                Amount = oleRevenue.Amount,
+                CustomerId = oleRevenue.CustomerId,
+                CreditCardId = oleRevenue.CreditCardId,
+                IsCreditCardPayment = oleRevenue.IsCreditCardPayment,
+                TextColor = oleRevenue.TextColor,
+                WorkId = oleRevenue.WorkId,
+            };
+
+            this.context.Revenues.Add(deletedRevenue);
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("index");
+        }
+
+        //
+        // GET: Revenues/Restore/id
+
+        public ActionResult Restore(int id)
+        {
+            var oleRevenue = this.context.Revenues.Find(id);
+            oleRevenue.IsActive = false;
+
+            var restoredRevenue = new Revenue()
+            {
+                ParentId = (oleRevenue.ParentId == 0 ? oleRevenue.Id : oleRevenue.ParentId),
+                RecipientId = oleRevenue.RecipientId,
+                Author = User.Identity.Name,
+                CreatedOn = oleRevenue.CreatedOn,
+                ModifiedOn = DateTime.Now,
+                Action = ActionType.Restored,
+                IsActive = true,
+                IsDeleted = false,
+                Amount = oleRevenue.Amount,
+                CustomerId = oleRevenue.CustomerId,
+                CreditCardId = oleRevenue.CreditCardId,
+                IsCreditCardPayment = oleRevenue.IsCreditCardPayment,
+                TextColor = oleRevenue.TextColor,
+                WorkId = oleRevenue.WorkId,
+            };
+
+            this.context.Revenues.Add(restoredRevenue);
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("index");
+        }
+
+        //
+        // Ajax GET: Revenues/History/parentId
+
+        public PartialViewResult History(int id)
+        {
+            var history = this.context.Revenues
+                .Where(r => r.ParentId == id || r.Id == id)
+                .OrderBy(r => r.ModifiedOn)
+                .Select(r => new RevenueViewModel()
+                {
+                    Id = r.Id,
+                    ParentId = r.ParentId,
+                    RecipientName = r.Recipient.UserName,
+                    Action = r.Action.ToString(),
+                    CustomerName = r.Customer.Name,
+                    WorkName = this.context.Works.FirstOrDefault(wn => wn.Id == r.WorkId).Name,
+                    CreatedOn = r.CreatedOn,
+                    Amount = r.Amount,
+                    IsCreditCardPayment = r.IsCreditCardPayment,
+                    TextColor = r.TextColor,
+                    Author = r.Author,
+                    HasInvoice = r.HasInvoice,
+                    ModifiedOn = r.ModifiedOn,
+                    CreditCardName = this.context.CreditCards.Where(c => c.Id == r.CreditCardId).FirstOrDefault().Name,
+                }).ToList();
+
+            return PartialView("", history);
         }
 	}
 }
