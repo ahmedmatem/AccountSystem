@@ -18,6 +18,26 @@
             this.creditCards = new HashSet<CreditCard>();
         }
 
+        public string Email { get; set; }
+
+        public string FullName { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string StreetAddress { get; set; }
+
+        public string City { get; set; }
+
+        public string Country { get; set; }
+
+        public string PostCode { get; set; }
+
+        public string Phone1 { get; set; }
+
+        public string Phone2 { get; set; }
+
+        public string Fax { get; set; }
+
         public virtual ICollection<Expense> Expenses
         {
             get

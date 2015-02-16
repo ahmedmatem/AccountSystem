@@ -3,6 +3,10 @@
     padding-bottom: 20px;
 }
 
+.bordered-1px {
+    border: 1px solid #000;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -133,3 +137,65 @@ input[type="checkbox"].input-validation-error {
 }
 
 /* Jquery Custom UI */
+
+
+
+/* Page for Print*/
+.page {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 2cm;
+    margin: 1cm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+    body * { visibility: hidden; }
+    .page {
+        visibility: visible;
+        position:fixed;
+        top: 0;
+        left: 0;
+        width: 21cm;
+        height: 29.7cm;
+        padding: 2cm;
+        margin: 0;
+        border: 1px red solid;
+    }
+
+        .page * {
+            visibility: visible;
+        }
+
+    .row-print {
+        width: 100%;
+        display: block;
+    }
+
+    .col-md-4-print {
+        display: inline-block;
+        width: 4cm;
+    }
+
+    .col-md-6-print {
+        display: inline-block;
+        width: 8cm;
+    }
+
+    .col-md-8-print {
+        display: inline-block;
+        width: 12cm;
+    }
+
+    .bordered-1px-print {
+        border: 1px solid #000;
+    }
+}

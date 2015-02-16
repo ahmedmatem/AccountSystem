@@ -20,7 +20,7 @@
                 <th class="text-left">Customer</th>
                 <th class="text-center">Date</th>
                 <th class="text-right">Amount</th>
-                <th class="text-center">Invoice</th>
+                <th class="text-left">Invoice</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -43,14 +43,23 @@
                     <td>@revenue.CustomerName</td>
                     <td class="text-center">@revenue.CreatedOn.ToShortDateString()</td>
                     <td class="text-right"><i class="fa fa-gbp"></i> @revenue.Amount</td>
-                    <td class="text-center">@Html.CheckBoxFor(m => revenue.HasInvoice, new { id=revenue.Id}) <button class="btn btn-primary btn-xs">Invoice</button></td>
+                    <td class="text-left">
+                        <a href="@Url.Content("~/Revenues/Invoice/" + revenue.Id)" class="btn btn-primary btn-xs">Invoice</a>
+                        @if (revenue.HasInvoice)
+                        {
+                            <i class="fa fa-check"></i>
+                        }
+                    </td>
                     <td class="text-center">
                         @if (revenue.ParentId != 0)
                         {
                             <a href="#" class="history" id="@revenue.ParentId"><i class="fa fa-history" title="History"></i></a>
                         }
-                        <a href="@Url.Content("~/Revenues/Update/" + revenue.Id)" title="Edit"><i class="fa fa-edit"></i></a>
-                        <a href="@Url.Content("~/Revenues/Delete/" + revenue.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
+                        @if (!revenue.HasInvoice)
+                        {
+                            <a href="@Url.Content("~/Revenues/Update/" + revenue.Id)" title="Edit"><i class="fa fa-edit"></i></a>
+                            <a href="@Url.Content("~/Revenues/Delete/" + revenue.Id)" class="deleteBtn" title="Delete"><i class="fa fa-remove"></i></a>
+                        }
                     </td>
                 </tr>
             }
@@ -101,13 +110,13 @@
                 });
             });
 
-            $(":checkbox").change(function () {
+            @*$(":checkbox").change(function () {
                 var revenueId = $(this).attr("id");
                 var hasInvoice = $(this).is(":checked");
                 $.get("@Url.Content("~/revenues/hasinvoice/")", { id: revenueId, invoice: hasInvoice }, function (result) {
                     //$("#history-dialog").html(result);
                 });
-            });
+            });*@
         });
 
         $(".deleteBtn").click(function (e) {

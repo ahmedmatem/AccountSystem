@@ -11,7 +11,6 @@
             <th class="text-left">Customer</th>
             <th class="text-center">Date</th>
             <th class="text-right">Amount</th>
-            <th class="text-center">Invoice</th>
         </tr>
     </thead>
     <tbody>
@@ -35,7 +34,6 @@
                 <td>@record.CustomerName</td>
                 <td class="text-center">@record.CreatedOn.ToShortDateString()</td>
                 <td class="text-right"><i class="fa fa-gbp"></i> @record.Amount</td>
-                <td class="text-center">@Html.CheckBoxFor(m => record.HasInvoice)</td>
             </tr>
         }
     </tbody>

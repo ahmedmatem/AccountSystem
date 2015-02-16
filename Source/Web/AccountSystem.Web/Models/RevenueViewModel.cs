@@ -65,5 +65,7 @@
         public bool HasInvoice { get; set; }
 
         public string TextColor { get; set; }
+
+        public string Description { get; set; }
     }
 }

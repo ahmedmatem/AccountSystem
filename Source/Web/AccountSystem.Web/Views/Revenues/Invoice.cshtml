@@ -1,0 +1,120 @@
+﻿@model AccountSystem.Web.Models.InvoiceViewModel
+
+@{
+    ViewBag.Title = "Revenue Invoice";
+}
+
+<div>
+    <a href="@Url.Content("~/Revenues")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+    <button id="print-button" class="btn btn-success"><i class="fa fa-print"></i> Print</button>
+</div>
+
+<div class="invoice">
+    <div class="page" id="print-page">
+
+        <div class="row row-print">
+            <div class="col-md-8 col-md-8-print">
+                <h3>@Model.CompanyName</h3>
+            </div>
+            <div class="col-md-4 col-md-4-print">
+                <h3><strong>INVOICE</strong></h3>
+            </div>
+        </div>
+
+        <div class="row row-print">
+            <div class="col-md-8 col-md-8-print">
+                <strong>@Model.FullName</strong>
+                <br />
+                @Model.StreetAddress
+                <br />
+                @Model.City @Model.Country @Model.Postcode
+                <br />
+                Phone: @Model.Phone1
+            </div>
+            <div class="col-md-4 col-md-4-print">
+                DATE:
+                <br />
+                @Model.CreatedOn.ToShortDateString()
+                <br />
+                <br />
+                INVOICE #: @Model.InvoiceNumber
+            </div>
+        </div>
+
+        <div class="row row-print">
+            <div class="col-md-6 col-md-6-print">
+                <br />
+                Bill to:
+                <br />
+                @Model.BillToName
+                <br />
+                @if (Model.BillToStreetAddress != null)
+                {
+                    @Model.BillToStreetAddress <br />
+                }
+                
+                @Model.BillToCity @Model.BillToCountry @Model.BillToPostcode
+
+                @if (@Model.BillToPhone != null)
+                {
+                    <br />
+                    @Model.BillToPhone
+                }
+                
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row row-print">
+            <table class="col-md-12 table table-bordered">
+                <thead >
+                    <tr>
+                        <th class="text-center col-md-9 col-md-8-print">DESCRIPTION</th>
+                        <th class="text-center col-md-3 col-md-4-print">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td class="text-right"><strong>TOTAL</strong></td>
+                        <td class="text-right"><strong>&pound; @Model.Amount</strong></td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>@Model.Description</td>
+                        <td class="text-right">&pound; @Model.Amount</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br /><br />
+
+        <div class="row row-print">
+            <div class="col-md-12 col-md-12-print">
+                If you have any questions concerning this invoice, contact <strong>@Model.FullName, <i class="fa fa-mobile"></i> @Model.Phone1</strong>
+            </div>
+        </div>
+
+        <br />
+        <div class="row row-print">
+            <div class="col-md-12 col-md-12-print text-center">
+                THANK YOU FOR YOUR BUSINESS!
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    @*<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            $("#print-button").click(function () {
+                $.get("@Url.Content("~/revenues/printInvoice/")", {userId: "@Model.UserId", revenueId: "@Model.RevenueId"});
+                window.print();
+            });
+        });
+    </script>
+}

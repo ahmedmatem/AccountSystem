@@ -26,6 +26,8 @@
 
         public IDbSet<Revenue> Revenues { get; set; }
 
+        public IDbSet<Invoice> Invoices { get; set; }
+
         public IDbSet<CreditCard> CreditCards { get; set; }
     }
 }

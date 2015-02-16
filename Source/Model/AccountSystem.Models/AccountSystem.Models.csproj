@@ -60,6 +60,7 @@
     <Compile Include="CreditCardType.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Expense.cs" />
+    <Compile Include="Invoice.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Revenue.cs" />

@@ -38,8 +38,6 @@
 
         public int WorkId { get; set; }
 
-        //public int ShopId { get; set; }
-
         public int CreditCardId { get; set; }
 
         public bool IsCreditCardPayment { get; set; }
@@ -48,10 +46,10 @@
 
         public virtual Customer Customer { get; set; }
 
-        //public virtual Shop Shop { get; set; }
-
         public bool HasInvoice { get; set; }
 
         public string TextColor { get; set; }
+
+        public string Description { get; set; }
     }
 }

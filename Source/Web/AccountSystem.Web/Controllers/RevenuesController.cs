@@ -12,6 +12,7 @@
 
     using AccountSystem.Web.Models;
     using AccountSystem.Models;
+    using iTextSharp.text;
 
     public class RevenuesController : BaseController
     {
@@ -152,6 +153,7 @@
                     IsCreditCardPayment = model.IsCreditCardPayment,
                     CreditCardId = model.IsCreditCardPayment ? model.CreditCardId : 0,
                     TextColor = this.textColor,
+                    Description = model.Description,
                 };
 
                 this.context.Revenues.Add(revenue);
@@ -184,6 +186,7 @@
                 Amount = matchedRevenue.Amount,
                 CreditCardId = matchedRevenue.CreditCardId,
                 IsCreditCardPayment = matchedRevenue.IsCreditCardPayment,
+                Description = matchedRevenue.Description,
             };
 
             this.InitializeDropDownFields(model);
@@ -223,6 +226,7 @@
                     IsCreditCardPayment = model.IsCreditCardPayment,
                     CreditCardId = model.IsCreditCardPayment ? model.CreditCardId : 0,
                     TextColor = this.textColor,
+                    Description = model.Description,
                 };
 
                 this.context.Revenues.Add(expence);
@@ -256,17 +260,17 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //
-        // AJAX: Revenues/HasInvoice
+        ////
+        //// AJAX: Revenues/HasInvoice
 
-        public void HasInvoice(int id, bool invoice)
-        {
-            var matchedRevenue = this.context.Revenues.Find(id);
+        //public void HasInvoice(int id, bool invoice)
+        //{
+        //    var matchedRevenue = this.context.Revenues.Find(id);
 
-            matchedRevenue.HasInvoice = invoice;
+        //    matchedRevenue.HasInvoice = invoice;
 
-            this.context.SaveChanges();
-        }
+        //    this.context.SaveChanges();
+        //}
 
         //
         // GET: Revenues/Delete/id
@@ -362,5 +366,72 @@
 
             return PartialView("", history);
         }
-	}
+
+        //
+        // POST: Revenues/Invoice/revenueId
+
+        public ActionResult Invoice(int id)
+        {
+            var matchedRevenue = this.context.Revenues.Find(id);
+            var user = this.context.Users.Find(matchedRevenue.RecipientId);         
+            var customer = this.context.Customers.Find(matchedRevenue.CustomerId);
+
+            var model = new InvoiceViewModel()
+            {
+                UserId = user.Id,
+                RevenueId = id,
+                CompanyName = user.CompanyName,
+                FullName = user.FullName,
+                StreetAddress = user.StreetAddress,
+                City = user.City,
+                Country = user.Country,
+                Postcode = user.PostCode,
+                Phone1 = user.Phone1,
+                CreatedOn = DateTime.Now,
+                InvoiceNumber = "00001",
+                Description = matchedRevenue.Description,
+                Amount = matchedRevenue.Amount,
+                BillToName = customer.Name,
+                BillToStreetAddress = customer.Address,
+                BillToCity = customer.City,
+                BillToCountry = "UK",
+                BillToPostcode = customer.PostCode,
+                BillToPhone = customer.PhoneNumber,
+            };
+
+            return View(model);
+        }
+
+        //
+        // AJAX: Revenues/PrintInvoice/revenueId
+
+        public void PrintInvoice(string userId, int revenueId)
+        {
+            Invoice invoice = null;
+            Revenue revenue = null;
+
+            bool hasInvoise = this.context.Invoices
+                .Any(m => m.RevenueId == revenueId);
+
+            if (hasInvoise)
+            {
+                return;
+            }
+            else
+            {
+                invoice = new Invoice()
+                {
+                    RevenueId = revenueId,
+                    UserId = userId,
+                };
+
+                revenue = this.context.Revenues.Find(revenueId);
+                revenue.HasInvoice = true;
+            }
+
+            this.context.Invoices.Add(invoice);
+            this.context.SaveChanges();
+        }
+    }
+    
 }
