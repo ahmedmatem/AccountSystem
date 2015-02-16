@@ -372,9 +372,37 @@
 
         public ActionResult Invoice(int id)
         {
+            int invoiceNumber = 0;
+
             var matchedRevenue = this.context.Revenues.Find(id);
+            var matchedInvoice = this.context.Invoices.FirstOrDefault(i => i.RevenueId == id);
             var user = this.context.Users.Find(matchedRevenue.RecipientId);         
             var customer = this.context.Customers.Find(matchedRevenue.CustomerId);
+
+            bool hasInvoice = this.context.Invoices
+                    .Any(i => i.RevenueId == id);
+
+            if (hasInvoice)
+            {
+                invoiceNumber = matchedInvoice.InvoiceNumber;
+            }
+            else
+            {
+                bool hasUserAnyOtherInvoice = this.context.Invoices
+                    .Any(i => i.UserId == matchedRevenue.RecipientId);
+
+                if (hasUserAnyOtherInvoice)
+                {
+                    invoiceNumber = this.context.Invoices
+                                .Where(i => i.UserId == matchedRevenue.RecipientId)
+                                .Max(i => i.InvoiceNumber);
+                    invoiceNumber++;
+                }
+                else
+                {
+                    invoiceNumber = 1;
+                }                
+            }
 
             var model = new InvoiceViewModel()
             {
@@ -388,7 +416,7 @@
                 Postcode = user.PostCode,
                 Phone1 = user.Phone1,
                 CreatedOn = DateTime.Now,
-                InvoiceNumber = "00001",
+                InvoiceNumber = invoiceNumber.ToString().PadLeft(6, '0'),
                 Description = matchedRevenue.Description,
                 Amount = matchedRevenue.Amount,
                 BillToName = customer.Name,
@@ -419,10 +447,23 @@
             }
             else
             {
+                bool hasUserAnyInvoice = this.context.Invoices
+                    .Any(i => i.UserId == userId);
+
+                int maxInvoiceNumber = 0;
+
+                if (hasUserAnyInvoice)
+                {
+                    maxInvoiceNumber = this.context.Invoices
+                                    .Where(i => i.UserId == userId)
+                                    .Max(i => i.InvoiceNumber);
+                }
+
                 invoice = new Invoice()
                 {
                     RevenueId = revenueId,
                     UserId = userId,
+                    InvoiceNumber = maxInvoiceNumber + 1,
                 };
 
                 revenue = this.context.Revenues.Find(revenueId);
