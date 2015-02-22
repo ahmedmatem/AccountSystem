@@ -415,7 +415,7 @@
                 Country = user.Country,
                 Postcode = user.PostCode,
                 Phone1 = user.Phone1,
-                CreatedOn = DateTime.Now,
+                CreatedOn = matchedRevenue.CreatedOn,
                 InvoiceNumber = invoiceNumber.ToString().PadLeft(6, '0'),
                 Description = matchedRevenue.Description,
                 Amount = matchedRevenue.Amount,
