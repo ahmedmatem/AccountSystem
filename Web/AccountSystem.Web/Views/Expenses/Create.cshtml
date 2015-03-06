@@ -80,9 +80,16 @@
             </span>
         </div>
     </div>
-    
+
     <div class="control-group">
-        @Html.LabelFor(m => m.PrivateAmount, "Private amount", new { @class = "control-label" })
+        @Html.LabelFor(m => m.SharedAmount, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.SharedAmount)
+        </div>
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(m => m.PrivateAmount, new { @class = "control-label" })
         <div class="controls">
             @Html.TextBoxFor(m => m.PrivateAmount)
         </div>

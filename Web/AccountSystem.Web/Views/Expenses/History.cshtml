@@ -12,7 +12,8 @@
             <th class="text-left">Shop</th>
             <th class="text-center">Date</th>
             <th class="text-center">Receipt No</th>
-            <th class="text-right">Amount</th>
+            <th class="text-right">Total</th>
+            <th class="text-right">Shared</th>
             <th class="text-right">Private</th>
         </tr>
     </thead>
@@ -40,6 +41,7 @@
                 <td class="text-center">@record.CreatedOn.ToShortDateString()</td>
                 <td class="text-center">@record.ReceiptNumber</td>
                 <td class="text-right"><i class="fa fa-gbp"></i> @record.Amount</td>
+                <td class="text-right"><i class="fa fa-gbp"></i> @record.SharedAmount</td>
                 <td class="text-right"><i class="fa fa-gbp"></i> @record.PrivateAmount</td>
             </tr>
         }

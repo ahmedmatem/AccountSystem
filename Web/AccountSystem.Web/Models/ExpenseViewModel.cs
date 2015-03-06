@@ -49,9 +49,15 @@
         public string ReceiptNumber { get; set; }
 
         [Required]
+        [Display(Name = "Total amount")]
         public decimal Amount { get; set; }
 
         [Required]
+        [Display(Name="Shared amount")]
+        public decimal SharedAmount { get; set; }
+
+        [Required]
+        [Display(Name = "Private amount")]
         public decimal PrivateAmount { get; set; }
 
         public bool IsCreditCardPayment { get; set; }

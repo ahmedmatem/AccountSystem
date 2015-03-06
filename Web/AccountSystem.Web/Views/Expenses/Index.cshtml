@@ -21,8 +21,9 @@
                 <th class="text-left">Shop</th>
                 <th class="text-center">Date</th>
                 <th class="text-center">Receipt No</th>
-                <th class="text-right">Amount</th>
-                <th class="text-right">Private Amount</th>
+                <th class="text-right">Total</th>
+                <th class="text-right">Shared</th>
+                <th class="text-right">Private</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -47,6 +48,7 @@
                     <td class="text-center">@expense.CreatedOn.ToShortDateString()</td>
                     <td class="text-center">@expense.ReceiptNumber</td>
                     <td class="text-right"><i class="fa fa-gbp"></i> @expense.Amount</td>
+                    <td class="text-right"><i class="fa fa-gbp"></i> @expense.SharedAmount</td>
                     <td class="text-right"><i class="fa fa-gbp"></i> @expense.PrivateAmount</td>
                     <td class="text-center">
                         @if(expense.ParentId != 0)

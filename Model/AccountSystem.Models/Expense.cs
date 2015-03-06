@@ -30,6 +30,9 @@
         // Total expense amount
         public decimal Amount { get; set; }
 
+        // SharedAmount is amount of the expense made from both of them (50%50)
+        public decimal SharedAmount { get; set; }
+
         // PrivateAmount is a part of expense Amount for personal use
         public decimal PrivateAmount { get; set; }
 

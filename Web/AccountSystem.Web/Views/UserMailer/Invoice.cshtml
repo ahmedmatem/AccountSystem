@@ -1,21 +1,11 @@
-﻿@model AccountSystem.Web.Models.InvoiceViewModel
-
-@{
-    ViewBag.Title = "Revenue Invoice";
-}
-
-<div>
-    <a href="@Url.Content("~/Revenues")" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
-    <button id="print-button" class="btn btn-success"><i class="fa fa-print"></i> Print</button>
-    @*<a href="@Url.Content("~/Revenues/SendInvoiceByEmail/" + Model.RevenueId)" class="btn btn-primary"><i class="fa fa-male"></i> Send by email</a>*@
-</div>
+@*@model AccountSystem.Web.Models.InvoiceViewModel*@
 
 <div class="invoice">
     <div class="page" id="print-page">
 
         <div class="row row-print">
             <div class="col-md-8 col-md-8-print">
-                <h3>@Model.CompanyName</h3>
+                <h3>@ViewBag.Model.CompanyName</h3>
             </div>
             <div class="col-md-4 col-md-4-print">
                 <h3><strong>INVOICE</strong></h3>
@@ -24,21 +14,21 @@
 
         <div class="row row-print">
             <div class="col-md-8 col-md-8-print">
-                <strong>@Model.FullName</strong>
+                <strong>@ViewBag.Model.FullName</strong>
                 <br />
-                @Model.StreetAddress
+                @ViewData.Model.StreetAddress
                 <br />
-                @Model.City @Model.Country @Model.Postcode
+                @ViewBag.Model.City @ViewBag.Model.Country @ViewBag.Model.Postcode
                 <br />
-                Phone: @Model.Phone1
+                Phone: @ViewBag.Model.Phone1
             </div>
             <div class="col-md-4 col-md-4-print">
                 DATE:
                 <br />
-                @Model.CreatedOn.ToString("dd/MM/yyyy")
+                @ViewBag.Model.CreatedOn.ToString("dd/MM/yyyy")
                 <br />
                 <br />
-                INVOICE #: @Model.InvoiceNumber
+                INVOICE #: @ViewBag.Model.InvoiceNumber
             </div>
         </div>
 
@@ -47,21 +37,21 @@
                 <br />
                 Bill to:
                 <br />
-                @Model.BillToName
+                @ViewBag.Model.BillToName
                 <br />
-                @if (Model.BillToStreetAddress != null)
+                @if (ViewBag.Model.BillToStreetAddress != null)
                 {
-                    @Model.BillToStreetAddress <br />
+                    @ViewBag.Model.BillToStreetAddress <br />
                 }
-                
-                @Model.BillToCity @Model.BillToCountry @Model.BillToPostcode
 
-                @if (@Model.BillToPhone != null)
+                @ViewBag.Model.BillToCity @ViewBag.Model.BillToCountry @ViewBag.Model.BillToPostcode
+
+                @if (ViewBag.Model.BillToPhone != null)
                 {
                     <br />
-                    @Model.BillToPhone
+                    @ViewBag.Model.BillToPhone
                 }
-                
+
             </div>
         </div>
 
@@ -69,7 +59,7 @@
 
         <div class="row row-print">
             <table class="col-md-12 table table-bordered">
-                <thead >
+                <thead>
                     <tr>
                         <th class="text-center col-md-9 col-md-8-print">DESCRIPTION</th>
                         <th class="text-center col-md-3 col-md-4-print">AMOUNT</th>
@@ -78,13 +68,13 @@
                 <tfoot>
                     <tr>
                         <td class="text-right"><strong>TOTAL</strong></td>
-                        <td class="text-right"><strong>&pound; @Model.Amount</strong></td>
+                        <td class="text-right"><strong>&pound; @ViewBag.Model.Amount</strong></td>
                     </tr>
                 </tfoot>
                 <tbody>
                     <tr>
-                        <td>@Model.Description</td>
-                        <td class="text-right">&pound; @Model.Amount</td>
+                        <td>@ViewBag.Model.Description</td>
+                        <td class="text-right">&pound; @ViewBag.Model.Amount</td>
                     </tr>
                 </tbody>
             </table>
@@ -94,7 +84,7 @@
 
         <div class="row row-print">
             <div class="col-md-12 col-md-12-print">
-                If you have any questions concerning this invoice, contact <strong>@Model.FullName, <i class="fa fa-mobile"></i> @Model.Phone1</strong>
+                If you have any questions concerning this invoice, contact <strong>@ViewBag.Model.FullName, <i class="fa fa-mobile"></i> @ViewBag.Model.Phone1</strong>
             </div>
         </div>
 
@@ -107,15 +97,3 @@
 
     </div>
 </div>
-
-@section scripts{
-    @*<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>*@
-    <script>
-        $(document).ready(function () {
-            $("#print-button").click(function () {
-                $.get("@Url.Content("~/revenues/printInvoice/")", {userId: "@Model.UserId", revenueId: "@Model.RevenueId"});
-                window.print();
-            });
-        });
-    </script>
-}

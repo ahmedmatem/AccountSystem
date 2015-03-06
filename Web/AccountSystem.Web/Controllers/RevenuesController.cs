@@ -13,11 +13,26 @@
     using AccountSystem.Web.Models;
     using AccountSystem.Models;
     using iTextSharp.text;
+    using AccountSystem.Web.Mailers;
 
     public class RevenuesController : BaseController
     {
 
         private string textColor;
+        private IUserMailer userMailer = new UserMailer();
+
+        public IUserMailer UserMailer
+        {
+            get
+            {
+                return this.userMailer;
+            }
+
+            set
+            {
+                this.userMailer = value;
+            }
+        }
 
         //
         // GET: /Revenues/
@@ -473,6 +488,69 @@
             this.context.Invoices.Add(invoice);
             this.context.SaveChanges();
         }
+
+        public ActionResult SendInvoiceByEmail(int id)
+        {
+            int invoiceNumber = 0;
+
+            var matchedRevenue = this.context.Revenues.Find(id);
+            var matchedInvoice = this.context.Invoices.FirstOrDefault(i => i.RevenueId == id);
+            var user = this.context.Users.Find(matchedRevenue.RecipientId);
+            var customer = this.context.Customers.Find(matchedRevenue.CustomerId);
+
+            bool hasInvoice = this.context.Invoices
+                    .Any(i => i.RevenueId == id);
+
+            if (hasInvoice)
+            {
+                invoiceNumber = matchedInvoice.InvoiceNumber;
+            }
+            else
+            {
+                bool hasUserAnyOtherInvoice = this.context.Invoices
+                    .Any(i => i.UserId == matchedRevenue.RecipientId);
+
+                if (hasUserAnyOtherInvoice)
+                {
+                    invoiceNumber = this.context.Invoices
+                                .Where(i => i.UserId == matchedRevenue.RecipientId)
+                                .Max(i => i.InvoiceNumber);
+                    invoiceNumber++;
+                }
+                else
+                {
+                    invoiceNumber = 1;
+                }
+            }
+
+            var model = new InvoiceViewModel()
+            {
+                UserId = user.Id,
+                RevenueId = id,
+                CompanyName = user.CompanyName,
+                FullName = user.FullName,
+                StreetAddress = user.StreetAddress,
+                City = user.City,
+                Country = user.Country,
+                Postcode = user.PostCode,
+                Phone1 = user.Phone1,
+                CreatedOn = matchedRevenue.CreatedOn,
+                InvoiceNumber = invoiceNumber.ToString().PadLeft(6, '0'),
+                Description = matchedRevenue.Description,
+                Amount = matchedRevenue.Amount,
+                BillToName = customer.Name,
+                BillToStreetAddress = customer.Address,
+                BillToCity = customer.City,
+                BillToCountry = "UK",
+                BillToPostcode = customer.PostCode,
+                BillToPhone = customer.PhoneNumber,
+            };
+
+            ViewBag.Model = model;
+
+            this.UserMailer.Invoice("ahmedmatem@gmail.com").Send();
+
+            return RedirectToAction("Index");
+        }
     }
-    
 }

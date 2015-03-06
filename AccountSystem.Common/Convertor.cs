@@ -6,7 +6,6 @@
     {
         public DateTime StringToDate(string dateAsString)
         {
-            
 
             return new DateTime();
         }
